@@ -73,4 +73,11 @@
          android:layout_alignParentRight="true"
          android:text="GETCODE" />
 
+     <Button
+         android:id="@+id/btnLoginTest"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignParentLeft="true"
+         android:text="Login" />
+
 </RelativeLayout>
