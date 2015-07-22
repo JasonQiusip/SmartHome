@@ -1,5 +1,6 @@
 package com.smarthomeloginreg.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -10,6 +11,7 @@ import butterknife.OnClick;
 
 import com.smarthomeloginreg.R;
 import com.smarthomeloginreg.presenter.RegisterPresenter;
+import com.smarthomeloginreg.tools.MiscUtil;
 import com.smarthomeloginreg.view.RegisterView;
 
 public class RegisterAty extends BaseAty implements RegisterView, OnClickListener{
@@ -21,6 +23,7 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 	private Button btnReqRegCode;
 	private Button btnReg;
 	private Button btnGetCode;
+	private Button btnLoginTest;
 	private RegisterPresenter registerPresenter;
 	private String val;
 	
@@ -36,11 +39,13 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 		btnReqRegCode = (Button) findViewById(R.id.btnReqValCode);
 		btnReg = (Button) findViewById(R.id.btnReg);
 		btnGetCode = (Button) findViewById(R.id.btnGetCode);
+		btnLoginTest = (Button) findViewById(R.id.btnLoginTest);
 		registerPresenter = new RegisterPresenter(this);
 		btnReqReg.setOnClickListener(this);
 		btnReqRegCode.setOnClickListener(this);
 		btnReg.setOnClickListener(this);
 		btnGetCode.setOnClickListener(this);
+		btnLoginTest.setOnClickListener(this);
 	}
 	
 	public void reqReg(){
@@ -52,7 +57,7 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 	}
 
 	public void getValCode(){
-		registerPresenter.getValCode(edtMobile.getText().toString());
+		registerPresenter.getValCode(MiscUtil.getNumber(edtMobile.getText().toString()));
 	}
 	
 	public void finishReg(){
@@ -81,6 +86,12 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 		edtValCode.setText(response);
 	}
 
+	private void startLoginAty(){
+		Intent intent = new Intent();
+		intent.setClass(this, LoginAty.class);
+		startActivity(intent);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
@@ -95,6 +106,9 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 			break;
 		case R.id.btnGetCode:
 			getValCode();
+			break;
+		case R.id.btnLoginTest:
+			startLoginAty();
 			break;
 		
 		}

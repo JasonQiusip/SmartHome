@@ -30,7 +30,7 @@ public class RegisterApi {
 		loginRegService = restAdapter.create(LoginRegService.class);
 	}
 	
-	public void reqRegstration(String account, final RegCallback cb){
+	public void reqRegstration(String account, final RequestCallback cb){
 		 loginRegService.reqRegMobile(account, new Callback<RegResult>(){
 
 			@Override
@@ -50,7 +50,7 @@ public class RegisterApi {
 		});
 	}
 	
-	public void reqRegCodeMobile(String account, final RegCallback cb){
+	public void reqRegCodeMobile(String account, final RequestCallback cb){
 		 loginRegService.reqValCodeMobile(account, new Callback<RegResult>(){
 
 			@Override
@@ -70,7 +70,7 @@ public class RegisterApi {
 		});
 	}
 	
-	public void register(String account, String pwd, String val, final RegCallback cb){
+	public void register(String account, String pwd, String val, final RequestCallback cb){
 		loginRegService.register(account, pwd, val, new Callback<RegResult>(){
 			
 			@Override
@@ -91,7 +91,7 @@ public class RegisterApi {
 	}
 	
 	//for Test only
-	public void getValcode(String mobile, final RegCallback cb){
+	public void getValcode(String mobile, final RequestCallback cb){
 		loginRegService.getRegCodeMobile(mobile, new Callback<RegValCode>(){
 			
 			@Override

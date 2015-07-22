@@ -6,7 +6,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.smarthomeloginreg.api.RegisterApi;
-import com.smarthomeloginreg.api.RegCallback;
+import com.smarthomeloginreg.api.RequestCallback;
 import com.smarthomeloginreg.view.CustomView;
 import com.smarthomeloginreg.view.RegisterView;
 
@@ -36,7 +36,7 @@ public class RegisterPresenter {
 
 	private void reqRegister(String account) {
 		this.view.showLoading();
-		loginRegApi.reqRegstration(account, new RegCallback(){
+		loginRegApi.reqRegstration(account, new RequestCallback(){
 
 
 			@Override
@@ -57,7 +57,7 @@ public class RegisterPresenter {
 	
 	private void reqRegCodeMobile(String mobile) {
 		this.view.showLoading();
-		loginRegApi.reqRegCodeMobile(mobile, new RegCallback(){
+		loginRegApi.reqRegCodeMobile(mobile, new RequestCallback(){
 			
 			private String val_code;
 			
@@ -79,7 +79,7 @@ public class RegisterPresenter {
 	
 	private void register(String account, String pwd, String val) {
 		this.view.showLoading();
-		loginRegApi.register(account, pwd, val, new RegCallback(){
+		loginRegApi.register(account, pwd, val, new RequestCallback(){
 			
 			
 			@Override
@@ -100,7 +100,7 @@ public class RegisterPresenter {
 
 	public void getValCode(String mobile) {
 		this.view.showLoading();
-		loginRegApi.getValcode(mobile, new RegCallback(){
+		loginRegApi.getValcode(mobile, new RequestCallback(){
 			
 			@Override
 			public void onSuccess(String response) throws JSONException {
