@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.smarthomeloginreg.ui.activity.LoginAty" >
+
+    <EditText
+        android:id="@+id/edtMobile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:ems="10"
+        android:hint="Mobile" />
+
+    <Button
+        android:id="@+id/btnReqReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtMobile"
+        android:layout_centerHorizontal="true"
+        android:text="REQ_REG" />
+
+   
+
+    <Button
+        android:id="@+id/btnReqValCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/btnReqReg"
+        android:text="REG_VAL_CODE" />
+
+    <EditText
+        android:id="@+id/edtPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/edtMobile"
+        android:layout_below="@+id/btnReqValCode"
+        android:ems="10"
+        android:hint="PWD" >
+    </EditText>
+
+    <Button
+        android:id="@+id/btnReg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edtPwd"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="reg" />
+    
+     <EditText
+        android:id="@+id/edtValCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/btnReg"
+        android:ems="10"
+        android:hint="VAL_CODE" >
+
+    </EditText>
+
+     <Button
+         android:id="@+id/btnGetCode"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_above="@+id/edtPwd"
+         android:layout_alignParentRight="true"
+         android:text="GETCODE" />
+
+</RelativeLayout>
