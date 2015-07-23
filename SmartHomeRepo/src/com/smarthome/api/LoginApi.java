@@ -34,13 +34,13 @@ public class LoginApi {
 				dict.put("pwd", pwd);
 				String[] httpGet = CSSHttpUtil.httpGet(ApiCommonParams.API_URL + GEN_TK, dict, null);
 				if(httpGet[0] != null && httpGet[0].equals("200")){
-					onSuceess(cb, httpGet);
+					onLoginSuceess(cb, httpGet);
 				}else{
 					cb.onError(null);
 				}
 			}
 
-			void onSuceess(final RequestCallback cb, String[] httpGet) {
+			void onLoginSuceess(final RequestCallback cb, String[] httpGet) {
 				try {
 					cb.onSuccess(httpGet[1]);
 				} catch (JSONException e) {

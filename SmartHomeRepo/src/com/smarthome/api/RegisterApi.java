@@ -32,53 +32,25 @@ public class RegisterApi {
 	}
 	
 	public void checkAccount(String account, final RequestCallback cb){
-		 loginRegService.checkAccount(account, new Callback<RegResult>(){
-
-			@Override
-			public void failure(RetrofitError error) {
-				cb.onError(error.getMessage());
-			}
-
-			@Override
-			public void success(RegResult result, Response arg1) {
-				try {
-					cb.onSuccess(result.getState()+"");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		});
+		 loginRegService.checkAccount(account, genRegResultCallback(cb));
 	}
 	
 	public void reqValCode(String account, final RequestCallback cb){
-		 loginRegService.reqValCode(account, new Callback<RegResult>(){
-
-			@Override
-			public void failure(RetrofitError error) {
-				cb.onError(error.getMessage());
-			}
-
-			@Override
-			public void success(RegResult result, Response arg1) {
-				try {
-					cb.onSuccess(result.getState()+"");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-			
-		});
+		 loginRegService.reqValCode(account, genRegResultCallback(cb));
 	}
 	
 	public void register(String account, String pwd, String val, final RequestCallback cb){
-		loginRegService.register(account, pwd, val, new Callback<RegResult>(){
-			
+		loginRegService.register(account, pwd, val, genRegResultCallback(cb));
+	}
+	
+	private Callback<RegResult> genRegResultCallback(final RequestCallback cb) {
+		return new Callback<RegResult>(){
+
 			@Override
 			public void failure(RetrofitError error) {
 				cb.onError(error.getMessage());
 			}
-			
+
 			@Override
 			public void success(RegResult result, Response arg1) {
 				try {
@@ -88,12 +60,16 @@ public class RegisterApi {
 				}
 			}
 			
-		});
+		};
 	}
 	
 	//for Test only
 	public void getValcode(String mobile, final RequestCallback cb){
-		loginRegService.getValCode(mobile, new Callback<RegValCode>(){
+		loginRegService.getValCode(mobile, getValCodeCallback(cb));
+	}
+
+	private Callback<RegValCode> getValCodeCallback(final RequestCallback cb) {
+		return new Callback<RegValCode>(){
 			
 			@Override
 			public void failure(RetrofitError error) {
@@ -109,7 +85,7 @@ public class RegisterApi {
 				}
 			}
 			
-		});
+		};
 	}
 	
 	
