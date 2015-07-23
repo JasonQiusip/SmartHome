@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.tools;
+package com.smarthomeloginreg.api.common;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;

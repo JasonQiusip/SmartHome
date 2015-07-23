@@ -49,11 +49,11 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 	}
 	
 	public void reqReg(){
-		registerPresenter.startRegster(edtMobile.getText().toString());
+		registerPresenter.startRegister(edtMobile.getText().toString());
 	}
 	
-	public void reqRegCode(){
-		registerPresenter.reqValCode(edtMobile.getText().toString());
+	public void reqValCode(){
+		registerPresenter.reqRegValCode(edtMobile.getText().toString());
 	}
 
 	public void getValCode(){
@@ -99,7 +99,7 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 			reqReg();
 			break;
 		case R.id.btnReqValCode:
-			reqRegCode();
+			reqValCode();
 			break;
 		case R.id.btnReg:
 			finishReg();

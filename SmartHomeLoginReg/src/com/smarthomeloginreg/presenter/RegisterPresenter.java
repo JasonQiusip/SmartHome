@@ -6,27 +6,27 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.smarthomeloginreg.api.RegisterApi;
-import com.smarthomeloginreg.api.RequestCallback;
+import com.smarthomeloginreg.api.common.RequestCallback;
 import com.smarthomeloginreg.view.CustomView;
 import com.smarthomeloginreg.view.RegisterView;
 
 public class RegisterPresenter {
 
-	private RegisterApi loginRegApi;
+	private RegisterApi registerApi;
 	private RegisterView view;
 	private final String TAG = this.getClass().getName();
 
 	public RegisterPresenter(CustomView view){
-		loginRegApi = new RegisterApi();
+		registerApi = new RegisterApi();
 		this.view = (RegisterView) view;
 	}
 	
-	public void startRegster(String account){
-		reqRegister(account);
+	public void startRegister(String account){
+		checkAccount(account);
 	}
 	
-	public void reqValCode(String mobile){
-		reqRegCodeMobile(mobile);
+	public void reqRegValCode(String mobile){
+		reqValCode(mobile);
 	}
 	
 	public void finishReg(String account, String pwd, String val){
@@ -34,9 +34,9 @@ public class RegisterPresenter {
 	}
 	
 
-	private void reqRegister(String account) {
+	private void checkAccount(String account) {
 		this.view.showLoading();
-		loginRegApi.reqRegstration(account, new RequestCallback(){
+		registerApi.checkAccount(account, new RequestCallback(){
 
 
 			@Override
@@ -55,11 +55,9 @@ public class RegisterPresenter {
 		});
 	}
 	
-	private void reqRegCodeMobile(String mobile) {
+	private void reqValCode(String mobile) {
 		this.view.showLoading();
-		loginRegApi.reqRegCodeMobile(mobile, new RequestCallback(){
-			
-			private String val_code;
+		registerApi.reqValCode(mobile, new RequestCallback(){
 			
 			@Override
 			public void onSuccess(String response) throws JSONException {
@@ -79,8 +77,7 @@ public class RegisterPresenter {
 	
 	private void register(String account, String pwd, String val) {
 		this.view.showLoading();
-		loginRegApi.register(account, pwd, val, new RequestCallback(){
-			
+		registerApi.register(account, pwd, val, new RequestCallback(){
 			
 			@Override
 			public void onSuccess(String response) throws JSONException {
@@ -98,9 +95,10 @@ public class RegisterPresenter {
 		});
 	}
 
+	//for test only
 	public void getValCode(String mobile) {
 		this.view.showLoading();
-		loginRegApi.getValcode(mobile, new RequestCallback(){
+		registerApi.getValcode(mobile, new RequestCallback(){
 			
 			@Override
 			public void onSuccess(String response) throws JSONException {

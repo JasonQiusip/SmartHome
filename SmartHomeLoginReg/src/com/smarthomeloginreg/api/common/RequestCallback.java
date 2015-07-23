@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.api;
+package com.smarthomeloginreg.api.common;
 
 import org.json.JSONException;
 

@@ -2,19 +2,22 @@ package com.smarthomeloginreg.presenter;
 
 import org.json.JSONException;
 
+import com.smarthomeloginreg.api.ChangePasswordApi;
 import com.smarthomeloginreg.api.LoginApi;
-import com.smarthomeloginreg.api.RequestCallback;
+import com.smarthomeloginreg.api.common.RequestCallback;
 import com.smarthomeloginreg.view.CustomView;
 import com.smarthomeloginreg.view.LoginView;
 
 public class LoginPresenter {
 
 	private LoginApi loginApi;
+	private ChangePasswordApi changePasswordApi;
 	private final String TAG = this.getClass().getName();
 	private LoginView view;
 	
 	public LoginPresenter(CustomView view){
 		loginApi = new LoginApi();
+		changePasswordApi = new ChangePasswordApi();
 		this.view = (LoginView)view;
 	}
 	
@@ -34,7 +37,7 @@ public class LoginPresenter {
 	}
 	
 	public void pwdLost(final String username){
-		loginApi.pwdLost(username, new RequestCallback() {
+		changePasswordApi.pwdLost(username, new RequestCallback() {
 			
 			@Override
 			public void onSuccess(String response) throws JSONException {
@@ -50,7 +53,7 @@ public class LoginPresenter {
 	
 	
 	public void pwdNew(String username, String pwd, String val){
-		loginApi.pwdNew(username, pwd, val, new RequestCallback() {
+		changePasswordApi.pwdNew(username, pwd, val, new RequestCallback() {
 			
 			@Override
 			public void onSuccess(String response) throws JSONException {

@@ -2,6 +2,7 @@ package com.smarthomeloginreg.api;
 
 import org.json.JSONException;
 
+import com.smarthomeloginreg.api.common.RequestCallback;
 import com.smarthomeloginreg.api.model.RegResult;
 import com.smarthomeloginreg.api.model.RegValCode;
 
@@ -30,8 +31,8 @@ public class RegisterApi {
 		loginRegService = restAdapter.create(LoginRegService.class);
 	}
 	
-	public void reqRegstration(String account, final RequestCallback cb){
-		 loginRegService.reqRegMobile(account, new Callback<RegResult>(){
+	public void checkAccount(String account, final RequestCallback cb){
+		 loginRegService.checkAccount(account, new Callback<RegResult>(){
 
 			@Override
 			public void failure(RetrofitError error) {
@@ -50,8 +51,8 @@ public class RegisterApi {
 		});
 	}
 	
-	public void reqRegCodeMobile(String account, final RequestCallback cb){
-		 loginRegService.reqValCodeMobile(account, new Callback<RegResult>(){
+	public void reqValCode(String account, final RequestCallback cb){
+		 loginRegService.reqValCode(account, new Callback<RegResult>(){
 
 			@Override
 			public void failure(RetrofitError error) {
@@ -92,7 +93,7 @@ public class RegisterApi {
 	
 	//for Test only
 	public void getValcode(String mobile, final RequestCallback cb){
-		loginRegService.getRegCodeMobile(mobile, new Callback<RegValCode>(){
+		loginRegService.getValCode(mobile, new Callback<RegValCode>(){
 			
 			@Override
 			public void failure(RetrofitError error) {
@@ -115,13 +116,13 @@ public class RegisterApi {
 	public interface LoginRegService{
 		
 		@POST("/valid_acc_new")
-		void reqRegMobile(@Query("account") String account, Callback<RegResult> cb);
+		void checkAccount(@Query("account") String account, Callback<RegResult> cb);
 		
 		@POST("/req_reg_val_code")
-		void reqValCodeMobile(@Query("account") String account, Callback<RegResult> cb);
+		void reqValCode(@Query("account") String account, Callback<RegResult> cb);
 		
 		@GET("/get_reg_val_code")
-		void getRegCodeMobile(@Query("mobile") String mobile, Callback<RegValCode> cb);
+		void getValCode(@Query("mobile") String mobile, Callback<RegValCode> cb);
 		
 		@POST("/check_reg_val_code")
 		void register(@Query("account") String account, @Query("pwd") String pwd,
