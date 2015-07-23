@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.api.model;
+package com.smarthome.api.model;
 
 public class RegValCode {
 

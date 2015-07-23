@@ -1,12 +1,12 @@
-package com.smarthomeloginreg.presenter;
+package com.smarthome.presenter;
 
 import org.json.JSONException;
 
-import com.smarthomeloginreg.api.ChangePasswordApi;
-import com.smarthomeloginreg.api.LoginApi;
-import com.smarthomeloginreg.api.common.RequestCallback;
-import com.smarthomeloginreg.view.CustomView;
-import com.smarthomeloginreg.view.LoginView;
+import com.smarthome.api.ChangePasswordApi;
+import com.smarthome.api.LoginApi;
+import com.smarthome.api.common.RequestCallback;
+import com.smarthome.view.CustomView;
+import com.smarthome.view.LoginView;
 
 public class LoginPresenter {
 

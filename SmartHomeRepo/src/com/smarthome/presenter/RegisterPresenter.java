@@ -1,14 +1,14 @@
-package com.smarthomeloginreg.presenter;
+package com.smarthome.presenter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.smarthomeloginreg.api.RegisterApi;
-import com.smarthomeloginreg.api.common.RequestCallback;
-import com.smarthomeloginreg.view.CustomView;
-import com.smarthomeloginreg.view.RegisterView;
+import com.smarthome.api.RegisterApi;
+import com.smarthome.api.common.RequestCallback;
+import com.smarthome.view.CustomView;
+import com.smarthome.view.RegisterView;
 
 public class RegisterPresenter {
 

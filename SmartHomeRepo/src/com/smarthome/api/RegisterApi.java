@@ -1,10 +1,10 @@
-package com.smarthomeloginreg.api;
+package com.smarthome.api;
 
 import org.json.JSONException;
 
-import com.smarthomeloginreg.api.common.RequestCallback;
-import com.smarthomeloginreg.api.model.RegResult;
-import com.smarthomeloginreg.api.model.RegValCode;
+import com.smarthome.api.common.RequestCallback;
+import com.smarthome.api.model.RegResult;
+import com.smarthome.api.model.RegValCode;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;

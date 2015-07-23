@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.ui.activity;
+package com.smarthome.ui.activity;
 
 import butterknife.ButterKnife;
 import android.app.Activity;

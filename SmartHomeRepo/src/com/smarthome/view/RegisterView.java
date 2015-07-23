@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.view;
+package com.smarthome.view;
 
 public interface RegisterView extends CustomView{
 

@@ -1,10 +1,11 @@
-package com.smarthomeloginreg.api;
+package com.smarthome.api;
 
 import java.util.HashMap;
 import org.json.JSONException;
-import com.smarthomeloginreg.api.common.ApiCommonParams;
-import com.smarthomeloginreg.api.common.HttpMethods;
-import com.smarthomeloginreg.api.common.RequestCallback;
+
+import com.smarthome.api.common.ApiCommonParams;
+import com.smarthome.api.common.HttpMethods;
+import com.smarthome.api.common.RequestCallback;
 
 public class ChangePasswordApi {
 	

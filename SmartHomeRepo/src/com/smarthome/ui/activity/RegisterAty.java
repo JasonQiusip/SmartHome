@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.ui.activity;
+package com.smarthome.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,10 +9,10 @@ import android.widget.EditText;
 import butterknife.InjectView;
 import butterknife.OnClick;
 
-import com.smarthomeloginreg.R;
-import com.smarthomeloginreg.presenter.RegisterPresenter;
-import com.smarthomeloginreg.tools.MiscUtil;
-import com.smarthomeloginreg.view.RegisterView;
+import com.smarthome.R;
+import com.smarthome.presenter.RegisterPresenter;
+import com.smarthome.tools.MiscUtil;
+import com.smarthome.view.RegisterView;
 
 public class RegisterAty extends BaseAty implements RegisterView, OnClickListener{
 

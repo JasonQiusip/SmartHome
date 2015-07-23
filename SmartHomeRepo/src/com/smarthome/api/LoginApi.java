@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.api;
+package com.smarthome.api;
 
 import java.util.HashMap;
 
@@ -13,11 +13,11 @@ import retrofit.http.GET;
 import retrofit.http.Query;
 
 import com.linktop.API.CSSHttpUtil;
-import com.smarthomeloginreg.api.common.ApiCommonParams;
-import com.smarthomeloginreg.api.common.HttpMethods;
-import com.smarthomeloginreg.api.common.RequestCallback;
-import com.smarthomeloginreg.api.model.LoginResult;
-import com.smarthomeloginreg.tools.LogUtil;
+import com.smarthome.api.common.ApiCommonParams;
+import com.smarthome.api.common.HttpMethods;
+import com.smarthome.api.common.RequestCallback;
+import com.smarthome.api.model.LoginResult;
+import com.smarthome.tools.LogUtil;
 
 public class LoginApi {
 

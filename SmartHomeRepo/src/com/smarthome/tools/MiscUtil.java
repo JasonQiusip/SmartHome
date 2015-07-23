@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.tools;
+package com.smarthome.tools;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

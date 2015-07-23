@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.api.common;
+package com.smarthome.api.common;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -34,7 +34,7 @@ public class HttpMethods {
 	/**
 	 * 
 	 * @param url
-	 * @param dict   格式�?  a=123&b=456&c=4343
+	 * @param dict   鏍煎紡锟�?  a=123&b=456&c=4343
  	 * @param treeMap
 	 * @return
 	 */
@@ -79,7 +79,7 @@ public class HttpMethods {
 	/**
 	 * 
 	 * @param url
-	 * @param dict   格式�?  a=123&b=456&c=4343
+	 * @param dict   鏍煎紡锟�?  a=123&b=456&c=4343
  	 * @param treeMap
 	 * @return
 	 */
@@ -126,7 +126,7 @@ public class HttpMethods {
 			OkHttpClient httpClient = new OkHttpClient();
 			OkUrlFactory okUrlFactory = new OkUrlFactory(httpClient);
 			HttpURLConnection urlConnection = okUrlFactory.open(urlPath);;
-			urlConnection.setConnectTimeout(8000); // 设置连接超时时间
+			urlConnection.setConnectTimeout(8000); // 璁剧疆杩炴帴瓒呮椂鏃堕棿
 			urlConnection.setReadTimeout(8000);
 			urlConnection.setRequestMethod("GET");
 			urlConnection.connect();
@@ -163,7 +163,7 @@ public class HttpMethods {
 			OkHttpClient httpClient = new OkHttpClient();
 			OkUrlFactory okUrlFactory = new OkUrlFactory(httpClient);
 			HttpURLConnection urlConnection = okUrlFactory.open(urlPath);
-			urlConnection.setConnectTimeout(8000); // 设置连接超时时间
+			urlConnection.setConnectTimeout(8000); // 璁剧疆杩炴帴瓒呮椂鏃堕棿
 			urlConnection.setReadTimeout(8000);
 			urlConnection.setRequestMethod("POST");
 			urlConnection.setDoInput(true);  
@@ -203,12 +203,12 @@ public class HttpMethods {
 		FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
 		//upload data
 		if(queryParam != null){
-			//构�?�请求参�?
+			//鏋勶拷?锟借姹傚弬锟�?
 			for(Entry<String, String> entry : queryParam.entrySet()){
-				//添加�?对参数key和value到list
+				//娣诲姞锟�?瀵瑰弬鏁発ey鍜寁alue鍒發ist
 				formEncodingBuilder.add(entry.getKey(), entry.getValue());  
 			}
-			//设置请求的body内容
+			//璁剧疆璇锋眰鐨刡ody鍐呭
 		}
 		
 		return formEncodingBuilder.build();

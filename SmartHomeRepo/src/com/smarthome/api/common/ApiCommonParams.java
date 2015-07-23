@@ -1,4 +1,4 @@
-package com.smarthomeloginreg.api.common;
+package com.smarthome.api.common;
 
 public class ApiCommonParams {
 	public static final String API_URL = "http://192.168.2.168:8400";

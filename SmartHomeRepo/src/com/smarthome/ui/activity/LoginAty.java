@@ -1,9 +1,9 @@
-package com.smarthomeloginreg.ui.activity;
+package com.smarthome.ui.activity;
 
-import com.smarthomeloginreg.R;
-import com.smarthomeloginreg.presenter.LoginPresenter;
-import com.smarthomeloginreg.tools.LogUtil;
-import com.smarthomeloginreg.view.LoginView;
+import com.smarthome.R;
+import com.smarthome.presenter.LoginPresenter;
+import com.smarthome.tools.LogUtil;
+import com.smarthome.view.LoginView;
 
 import android.os.Bundle;
 import android.view.Menu;
