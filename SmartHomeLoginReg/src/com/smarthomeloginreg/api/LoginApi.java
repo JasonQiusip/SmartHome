@@ -14,7 +14,7 @@ import retrofit.http.Query;
 
 import com.linktop.API.CSSHttpUtil;
 import com.smarthomeloginreg.api.common.ApiCommonParams;
-import com.smarthomeloginreg.api.common.NetUtil;
+import com.smarthomeloginreg.api.common.HttpMethods;
 import com.smarthomeloginreg.api.common.RequestCallback;
 import com.smarthomeloginreg.api.model.LoginResult;
 import com.smarthomeloginreg.tools.LogUtil;

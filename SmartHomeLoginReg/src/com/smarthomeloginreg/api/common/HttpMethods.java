@@ -23,7 +23,7 @@ import com.squareup.okhttp.Request.Builder;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
-public class NetUtil {
+public class HttpMethods {
 	
 	protected static final String CONTROL_SUCCESS = "success";
 	protected static final String CONTROL_FAIL = "fail";
