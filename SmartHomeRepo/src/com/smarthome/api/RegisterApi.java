@@ -2,6 +2,7 @@ package com.smarthome.api;
 
 import org.json.JSONException;
 
+import com.smarthome.api.common.ApiCommonParams;
 import com.smarthome.api.common.RequestCallback;
 import com.smarthome.api.model.RegResult;
 import com.smarthome.api.model.RegValCode;
@@ -17,7 +18,6 @@ import retrofit.http.Query;
 
 public class RegisterApi {
 
-	public static final String API_URL_LOGIN = "http://192.168.2.168:8400";
 	private LoginRegService loginRegService;
 	
 	public RegisterApi(){
@@ -26,7 +26,7 @@ public class RegisterApi {
 	
 	private void initRestAdapter(){
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(API_URL_LOGIN)
+				.setEndpoint(ApiCommonParams.API_URL)
 				.build();
 		loginRegService = restAdapter.create(LoginRegService.class);
 	}
