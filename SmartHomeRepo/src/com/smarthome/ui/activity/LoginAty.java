@@ -20,8 +20,6 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 	private EditText edtLoginPwd;
 	private Button btnLogin;
 	private Button btnForgetPwd;
-	private EditText edtLoginVal;
-	private Button btnPwdNew;
 	private String mobile;
 
 	@Override
@@ -30,13 +28,10 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 		setContentView(R.layout.activity_login);
 		loginPresenter = new LoginPresenter(this);
 		edtLoginPwd = (EditText)findViewById(R.id.edtLoginPwd);
-		edtLoginVal = (EditText)findViewById(R.id.edtLoginVal);
 		btnLogin = (Button)findViewById(R.id.btnLogin);
 		btnForgetPwd = (Button)findViewById(R.id.btnForgetPwd);
-		btnPwdNew = (Button)findViewById(R.id.btnPwdNew);
 		btnLogin.setOnClickListener(this);
 		btnForgetPwd.setOnClickListener(this);
-		btnPwdNew.setOnClickListener(this);
 		Intent intent = getIntent();
 		mobile = intent.getStringExtra(AccountCheckAty.MOBILE_EXTRA_KEY);
 		
@@ -73,18 +68,23 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 	public void onClick(View v) {
 		String username = mobile+AccountCheckAty.ACCOUNT_SUFFIX;
 		String pwd = edtLoginPwd.getText().toString();
-		String val = edtLoginVal.getText().toString();
 		switch(v.getId()){
 		case R.id.btnLogin:
 			loginPresenter.login(username,pwd);
 			break;
 		case R.id.btnForgetPwd:
-			loginPresenter.pwdLost(username);
+			startNewPwdAty();
+			finish();
 			break;
-		case R.id.btnPwdNew:
-			loginPresenter.pwdNew(username, pwd, val);
-			break;
+		
 		}
+	}
+	
+	private void startNewPwdAty() {
+		Intent intent = new Intent();
+		intent.setClass(this, NewPasswordAty.class);
+		intent.putExtra(AccountCheckAty.MOBILE_EXTRA_KEY, mobile);
+		startActivity(intent);
 	}
 
 

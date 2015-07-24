@@ -194,4 +194,8 @@ public class MiscUtil {
 		return m.matches();
 	}
 	
+	public static String convertIntToString(int value){
+		return String.valueOf(value);
+	}
+	
 }

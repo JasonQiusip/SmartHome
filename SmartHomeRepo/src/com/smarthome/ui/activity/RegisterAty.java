@@ -107,10 +107,6 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 		}
 	}
 
-	private void showSnackBar(String msg){
-		Snackbar.make(this.getWindow().getDecorView(), msg, Snackbar.LENGTH_SHORT).show();
-	}
-	
 	@Override
 	public void onGetValCode(String response){
 		this.val = response;

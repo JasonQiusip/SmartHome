@@ -19,7 +19,7 @@ public class ChangePasswordApi {
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("api_key", ApiCommonParams.api_key);
 				dict.put("account", username);
-				String[] httpGet = HttpMethods.httpPost(ApiCommonParams.API_URL + PWD_LOST, dict, null);
+				String[] httpGet = HttpMethods.httpPost(ApiCommonParams.AUTHORIZE_URL + PWD_LOST, dict, null);
 				if(httpGet[0] != null && httpGet[0].equals("200")){
 					try {
 						cb.onSuccess(httpGet[1]);
@@ -43,7 +43,7 @@ public class ChangePasswordApi {
 				dict.put("pwd", pwd);
 				dict.put("account", username);
 				dict.put("val", val);
-				String[] httpGet = HttpMethods.httpPost(ApiCommonParams.API_URL + PWD_NEW, dict, null);
+				String[] httpGet = HttpMethods.httpPost(ApiCommonParams.AUTHORIZE_URL + PWD_NEW, dict, null);
 				if(httpGet[0] != null && httpGet[0].equals("200")){
 					try {
 						cb.onSuccess(httpGet[1]);

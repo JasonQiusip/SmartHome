@@ -96,8 +96,14 @@ public class HttpMethods {
 		client.setWriteTimeout(8000, TimeUnit.MILLISECONDS);
 		
 		RequestBody formBody = okHttpPostBody(dict);
-		Request request = new Request.Builder()
-	      .url(url)
+		Builder reqBuilder = new Request.Builder();
+		if(treeMap != null){
+			for(String key : treeMap.keySet())
+			{
+				reqBuilder.header(key, treeMap.get(key));
+			}
+		}
+		Request request = reqBuilder.url(url)
 	      .post(formBody)
 	      .build();
 		try {

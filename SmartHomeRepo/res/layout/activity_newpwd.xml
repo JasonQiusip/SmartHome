@@ -3,45 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/btnForgetPwd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:text="forgetPwd" />
-
+  
+	<android.support.design.widget.TextInputLayout
+        android:id="@+id/edtNewPwdValTextInput"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
     <EditText
-        android:id="@+id/edtLoginVal"
+        android:id="@+id/edtNewPwdVal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btnForgetPwd"
         android:ems="10"
-        android:hint="Val" >
+        android:hint="Verification Code" >
 
         <requestFocus />
     </EditText>
+    </android.support.design.widget.TextInputLayout>
 
+  
+    
+     <android.support.design.widget.TextInputLayout
+        android:id="@+id/edtNewPwdAtyPwdTextInput"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_below="@+id/edtNewPwdValTextInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <EditText
+	        android:id="@+id/edtNewPwdAtyPwd"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	       
+	        android:layout_centerHorizontal="true"
+	        android:layout_marginTop="20dp"
+	        android:hint="Password"
+	        android:ems="10" >
+    </EditText>
+    </android.support.design.widget.TextInputLayout>
+    
     <Button
         android:id="@+id/btnPwdNew"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/edtLoginVal"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/edtNewPwdAtyPwdTextInput"
         android:text="newPwd" />
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnPwdNew" >
-
-        <EditText
-            android:id="@+id/edtNewPwdAtyPwd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Password" />
-    </android.support.design.widget.TextInputLayout>
+     
 
 </RelativeLayout>

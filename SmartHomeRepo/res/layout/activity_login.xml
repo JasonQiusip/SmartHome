@@ -7,7 +7,13 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.smarthome.ui.activity.LoginAty" >
-
+   <android.support.design.widget.TextInputLayout
+        android:id="@+id/edtLoginPwdTextInput"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
     <EditText
         android:id="@+id/edtLoginPwd"
         android:layout_width="wrap_content"
@@ -15,46 +21,28 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:ems="10"
-        android:hint="password" >
+        android:hint="Password" >
 
     </EditText>
+    </android.support.design.widget.TextInputLayout>
 
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edtLoginPwd"
-        android:layout_centerHorizontal="true"
-         android:layout_marginTop="8dp"
+        android:layout_below="@+id/edtLoginPwdTextInput"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@+id/btnForgetPwd"
         android:text="Login" />
 
     <Button
         android:id="@+id/btnForgetPwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/btnLogin"
-         android:layout_centerHorizontal="true"
-         android:layout_marginTop="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_alignBottom="@id/btnLogin"
+        android:layout_alignParentRight="true"
         android:text="forgetPwd" />
-    
-        <Button
-        android:id="@+id/btnPwdNew"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnForgetPwd"
-         android:layout_centerHorizontal="true"
-         android:layout_marginTop="20dp"
-        android:text="newPwd" />
-        
-        <EditText
-        android:id="@+id/edtLoginVal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnPwdNew"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:hint="Val"
-        android:ems="10" >
-    </EditText>
+
 
 </RelativeLayout>

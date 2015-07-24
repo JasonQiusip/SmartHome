@@ -21,4 +21,12 @@ public class Constants {
 	public interface LoginState{
 		
 	}
+	
+	public interface PwdNewState{
+		public static final String SUCCESS = "0";
+		public static final String ACCOUNT_MISS = "1";
+		public static final String PWD_MISS = "2";
+		public static final String NO_VAL = "3";
+		public static final String VAL_CODE_ERROR = "4";
+	}
 }

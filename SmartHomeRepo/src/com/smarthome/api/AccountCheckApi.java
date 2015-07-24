@@ -27,7 +27,7 @@ public class AccountCheckApi {
 	
 	private void initRestAdapter(){
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setEndpoint(ApiCommonParams.API_URL)
+				.setEndpoint(ApiCommonParams.AUTHORIZE_URL)
 				.build();
 		mobileCheckService = restAdapter.create(MobileCheckService.class);
 	}

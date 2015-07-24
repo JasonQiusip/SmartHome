@@ -32,7 +32,7 @@ public class LoginApi {
 				dict.put("api_key", ApiCommonParams.api_key);
 				dict.put("username", username);
 				dict.put("pwd", pwd);
-				String[] httpGet = CSSHttpUtil.httpGet(ApiCommonParams.API_URL + GEN_TK, dict, null);
+				String[] httpGet = CSSHttpUtil.httpGet(ApiCommonParams.AUTHORIZE_URL + GEN_TK, dict, null);
 				if(httpGet[0] != null && httpGet[0].equals("200")){
 					onLoginSuceess(cb, httpGet);
 				}else{
