@@ -4,5 +4,13 @@
     <string name="app_name">smarthome</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_mobile_check">MobileCheckActivity</string>
+    <string name="accountCheckEdtHint">Mobile</string>
+    <string name="accountCheckBtnTxt">OK</string>
+    <string name="account_format_error">账号格式错误</string>
+    <string name="account_not_mobile">账号非手机号</string>
+    <string name="val_code_format_error">验证码格式错误</string>
+    <string name="val_code_empty_or_error">验证码未填写或错误</string>
+    <string name="account_exist">账号已存在</string>
 
 </resources>

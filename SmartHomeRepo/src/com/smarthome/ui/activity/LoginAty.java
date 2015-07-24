@@ -5,6 +5,7 @@ import com.smarthome.presenter.LoginPresenter;
 import com.smarthome.tools.LogUtil;
 import com.smarthome.view.LoginView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -16,19 +17,18 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 
 	private final String TAG = this.getClass().getName();
 	private LoginPresenter loginPresenter;
-	private EditText edtLoginUsername;
 	private EditText edtLoginPwd;
 	private Button btnLogin;
 	private Button btnForgetPwd;
 	private EditText edtLoginVal;
 	private Button btnPwdNew;
+	private String mobile;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_login);
 		loginPresenter = new LoginPresenter(this);
-		edtLoginUsername = (EditText)findViewById(R.id.edtLoginUsername);
 		edtLoginPwd = (EditText)findViewById(R.id.edtLoginPwd);
 		edtLoginVal = (EditText)findViewById(R.id.edtLoginVal);
 		btnLogin = (Button)findViewById(R.id.btnLogin);
@@ -37,6 +37,8 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 		btnLogin.setOnClickListener(this);
 		btnForgetPwd.setOnClickListener(this);
 		btnPwdNew.setOnClickListener(this);
+		Intent intent = getIntent();
+		mobile = intent.getStringExtra(AccountCheckAty.MOBILE_EXTRA_KEY);
 		
 	}
 
@@ -69,7 +71,7 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		String username = edtLoginUsername.getText().toString();
+		String username = mobile+AccountCheckAty.ACCOUNT_SUFFIX;
 		String pwd = edtLoginPwd.getText().toString();
 		String val = edtLoginVal.getText().toString();
 		switch(v.getId()){

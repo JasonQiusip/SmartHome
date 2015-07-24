@@ -21,10 +21,6 @@ public class RegisterPresenter {
 		this.view = (RegisterView) view;
 	}
 	
-	public void startRegister(String account){
-		checkAccount(account);
-	}
-	
 	public void reqRegValCode(String mobile){
 		reqValCode(mobile);
 	}
@@ -34,38 +30,17 @@ public class RegisterPresenter {
 	}
 	
 
-	private void checkAccount(String account) {
-		this.view.showLoading();
-		registerApi.checkAccount(account, new RequestCallback(){
-
-
-			@Override
-			public void onSuccess(String response) throws JSONException {
-				view.hideLoading();
-				Log.e(TAG, response);
-				view.reqRegSuccess(response);
-			}
-
-			@Override
-			public void onError(String errorMsg) {
-				Log.e(TAG, errorMsg);
-				view.hideLoading();
-			}
-			
-		});
-	}
+	
 	
 	private void reqValCode(String mobile) {
 		this.view.showLoading();
 		registerApi.reqValCode(mobile, new RequestCallback(){
-			
 			@Override
 			public void onSuccess(String response) throws JSONException {
 				Log.e(TAG, response);
 				view.hideLoading();
-				view.reqRegSuccess(response);
+				view.onReqRegSuccess(response);
 			}
-			
 			@Override
 			public void onError(String errorMsg) {
 				Log.e(TAG, errorMsg);
@@ -78,18 +53,17 @@ public class RegisterPresenter {
 	private void register(String account, String pwd, String val) {
 		this.view.showLoading();
 		registerApi.register(account, pwd, val, new RequestCallback(){
-			
 			@Override
 			public void onSuccess(String response) throws JSONException {
 				Log.e(TAG, response);
 				view.hideLoading();
-				view.reqRegSuccess(response);
+				view.onFinishRegSuccess(response);
 			}
-			
 			@Override
 			public void onError(String errorMsg) {
 				Log.e(TAG, errorMsg);
 				view.hideLoading();
+				
 			}
 			
 		});
@@ -99,20 +73,17 @@ public class RegisterPresenter {
 	public void getValCode(String mobile) {
 		this.view.showLoading();
 		registerApi.getValcode(mobile, new RequestCallback(){
-			
 			@Override
 			public void onSuccess(String response) throws JSONException {
 				Log.e(TAG, response);
 				view.hideLoading();
 				view.onGetValCode(response);
 			}
-			
 			@Override
 			public void onError(String errorMsg) {
 				Log.e(TAG, errorMsg);
 				view.hideLoading();
 			}
-			
 		});
 	}
 

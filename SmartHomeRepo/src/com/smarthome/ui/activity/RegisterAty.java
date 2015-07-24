@@ -2,66 +2,68 @@ package com.smarthome.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import butterknife.InjectView;
-import butterknife.OnClick;
 
 import com.smarthome.R;
 import com.smarthome.presenter.RegisterPresenter;
 import com.smarthome.tools.MiscUtil;
 import com.smarthome.view.RegisterView;
+import com.smarthome.view.common.Constants.RegisterState;
+import com.smarthome.view.common.Constants.ReqValCodeState;
 
 public class RegisterAty extends BaseAty implements RegisterView, OnClickListener{
 
-	private EditText edtMobile;
+
 	private EditText edtValCode;
 	private EditText edtPwd;
-	private Button btnReqReg;
+
 	private Button btnReqRegCode;
 	private Button btnReg;
 	private Button btnGetCode;
-	private Button btnLoginTest;
 	private RegisterPresenter registerPresenter;
 	private String val;
+	private String mobile;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
-		edtMobile = (EditText) findViewById(R.id.edtMobile);
+
 		edtValCode = (EditText) findViewById(R.id.edtValCode);
 		edtPwd = (EditText) findViewById(R.id.edtPwd);
-		
-		btnReqReg = (Button) findViewById(R.id.btnReqReg);
 		btnReqRegCode = (Button) findViewById(R.id.btnReqValCode);
 		btnReg = (Button) findViewById(R.id.btnReg);
 		btnGetCode = (Button) findViewById(R.id.btnGetCode);
-		btnLoginTest = (Button) findViewById(R.id.btnLoginTest);
 		registerPresenter = new RegisterPresenter(this);
-		btnReqReg.setOnClickListener(this);
 		btnReqRegCode.setOnClickListener(this);
 		btnReg.setOnClickListener(this);
 		btnGetCode.setOnClickListener(this);
-		btnLoginTest.setOnClickListener(this);
+		Intent intent = getIntent();
+		mobile = intent.getStringExtra(AccountCheckAty.MOBILE_EXTRA_KEY);
+		
 	}
 	
-	public void reqReg(){
-		registerPresenter.startRegister(edtMobile.getText().toString());
+	private void startLoginAty() {
+		Intent intent = new Intent();
+		intent.setClass(this, LoginAty.class);
+		intent.putExtra(AccountCheckAty.MOBILE_EXTRA_KEY, mobile);
+		startActivity(intent);
 	}
 	
 	public void reqValCode(){
-		registerPresenter.reqRegValCode(edtMobile.getText().toString());
+		registerPresenter.reqRegValCode(mobile+AccountCheckAty.ACCOUNT_SUFFIX);
 	}
 
 	public void getValCode(){
-		registerPresenter.getValCode(MiscUtil.getNumber(edtMobile.getText().toString()));
+		registerPresenter.getValCode(MiscUtil.getNumber(mobile));
 	}
 	
 	public void finishReg(){
-		registerPresenter.finishReg(edtMobile.getText().toString(), 
+		registerPresenter.finishReg(mobile+AccountCheckAty.ACCOUNT_SUFFIX, 
 				edtPwd.getText().toString(), val);
 	}
 	
@@ -76,8 +78,37 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 	}
 
 	@Override
-	public void reqRegSuccess(String response) {
+	public void onReqRegSuccess(String response) {
 		edtValCode.setText(response);
+		 if(ReqValCodeState.ACCOUNT_FORMAT_ERROR.equals(response)){
+			 showSnackBar(getString(R.string.account_format_error));
+		 }else if(ReqValCodeState.ACCOUNT_NOT_MOBILE.equals(response)){
+			 showSnackBar(getString(R.string.account_not_mobile));
+		 }
+		
+	}
+
+	@Override
+	public void onFinishRegSuccess(String response) {
+		edtValCode.setText(response);
+		if(RegisterState.SUCCESS.equals(response)){
+			startLoginAty();
+			finish();
+		}else if(RegisterState.ACCOUNT_FORMAT_ERROR.equals(response)){
+			showSnackBar(getString(R.string.account_format_error));
+		}else if(RegisterState.ACCOUNT_NOT_MOBILE.equals(response)){
+			showSnackBar(getString(R.string.account_not_mobile));
+		}else if(RegisterState.VAL_CODE_FORMAT_ERROR.equals(response)){
+			showSnackBar(getString(R.string.val_code_format_error));
+		}else if(RegisterState.VAL_CODE_INVALID_OR_NOT_EXIST.equals(response)){
+			showSnackBar(getString(R.string.val_code_empty_or_error));
+		}else if(RegisterState.ACCOUNT_EXIST.equals(response)){
+			showSnackBar(getString(R.string.account_exist));
+		}
+	}
+
+	private void showSnackBar(String msg){
+		Snackbar.make(this.getWindow().getDecorView(), msg, Snackbar.LENGTH_SHORT).show();
 	}
 	
 	@Override
@@ -86,18 +117,15 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 		edtValCode.setText(response);
 	}
 
-	private void startLoginAty(){
-		Intent intent = new Intent();
-		intent.setClass(this, LoginAty.class);
-		startActivity(intent);
+
+	@Override
+	public void onError(String errorMsg) {
+		
 	}
 	
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
-		case R.id.btnReqReg:
-			reqReg();
-			break;
 		case R.id.btnReqValCode:
 			reqValCode();
 			break;
@@ -106,9 +134,6 @@ public class RegisterAty extends BaseAty implements RegisterView, OnClickListene
 			break;
 		case R.id.btnGetCode:
 			getValCode();
-			break;
-		case R.id.btnLoginTest:
-			startLoginAty();
 			break;
 		
 		}

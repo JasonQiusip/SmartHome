@@ -8,76 +8,51 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.smarthome.ui.activity.LoginAty" >
 
-    <EditText
-        android:id="@+id/edtMobile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:hint="Mobile" />
-
-    <Button
-        android:id="@+id/btnReqReg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/edtMobile"
-        android:layout_centerHorizontal="true"
-        android:text="REQ_REG" />
-
-   
-
     <Button
         android:id="@+id/btnReqValCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/btnReqReg"
         android:text="REG_VAL_CODE" />
 
-    <EditText
-        android:id="@+id/edtPwd"
+    <Button
+        android:id="@+id/btnGetCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/edtMobile"
-        android:layout_below="@+id/btnReqValCode"
-        android:ems="10"
-        android:hint="PWD" >
-    </EditText>
+        android:layout_above="@+id/edtPwd"
+        android:layout_alignParentRight="true"
+        android:text="GETCODE" />
 
     <Button
         android:id="@+id/btnReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/edtPwd"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginTop="115dp"
+        android:layout_toLeftOf="@+id/btnGetCode"
         android:text="reg" />
-    
-     <EditText
+
+    <EditText
         android:id="@+id/edtValCode"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/btnReg"
+        android:layout_alignLeft="@+id/edtPwd"
+        android:layout_below="@+id/edtPwd"
+        android:layout_marginTop="38dp"
         android:ems="10"
-        android:hint="VAL_CODE" >
+        android:hint="VAL_CODE" />
 
+    <EditText
+        android:id="@+id/edtPwd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnReqValCode"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:ems="10"
+        android:hint="PWD" >
+
+        <requestFocus />
     </EditText>
-
-     <Button
-         android:id="@+id/btnGetCode"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_above="@+id/edtPwd"
-         android:layout_alignParentRight="true"
-         android:text="GETCODE" />
-
-     <Button
-         android:id="@+id/btnLoginTest"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentLeft="true"
-         android:text="Login" />
 
 </RelativeLayout>

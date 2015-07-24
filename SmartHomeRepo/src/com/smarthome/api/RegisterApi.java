@@ -18,7 +18,7 @@ import retrofit.http.Query;
 
 public class RegisterApi {
 
-	private LoginRegService loginRegService;
+	private RegService regService;
 	
 	public RegisterApi(){
 		initRestAdapter();
@@ -28,19 +28,15 @@ public class RegisterApi {
 		RestAdapter restAdapter = new RestAdapter.Builder()
 				.setEndpoint(ApiCommonParams.API_URL)
 				.build();
-		loginRegService = restAdapter.create(LoginRegService.class);
-	}
-	
-	public void checkAccount(String account, final RequestCallback cb){
-		 loginRegService.checkAccount(account, genRegResultCallback(cb));
+		regService = restAdapter.create(RegService.class);
 	}
 	
 	public void reqValCode(String account, final RequestCallback cb){
-		 loginRegService.reqValCode(account, genRegResultCallback(cb));
+		 regService.reqValCode(account, genRegResultCallback(cb));
 	}
 	
 	public void register(String account, String pwd, String val, final RequestCallback cb){
-		loginRegService.register(account, pwd, val, genRegResultCallback(cb));
+		regService.register(account, pwd, val, genRegResultCallback(cb));
 	}
 	
 	private Callback<RegResult> genRegResultCallback(final RequestCallback cb) {
@@ -65,7 +61,7 @@ public class RegisterApi {
 	
 	//for Test only
 	public void getValcode(String mobile, final RequestCallback cb){
-		loginRegService.getValCode(mobile, getValCodeCallback(cb));
+		regService.getValCode(mobile, getValCodeCallback(cb));
 	}
 
 	private Callback<RegValCode> getValCodeCallback(final RequestCallback cb) {
@@ -89,10 +85,7 @@ public class RegisterApi {
 	}
 	
 	
-	public interface LoginRegService{
-		
-		@POST("/valid_acc_new")
-		void checkAccount(@Query("account") String account, Callback<RegResult> cb);
+	public interface RegService{
 		
 		@POST("/req_reg_val_code")
 		void reqValCode(@Query("account") String account, Callback<RegResult> cb);

@@ -4,6 +4,8 @@ public interface RegisterView extends CustomView{
 
 	void showLoading();
 	void hideLoading();
-	void reqRegSuccess(String response);
+	void onReqRegSuccess(String response);
+	void onFinishRegSuccess(String response);
 	void onGetValCode(String val);
+	void onError(String errorMsg);
 }

@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".ui.activity.RegisterAty"
+            android:name=".ui.activity.AccountCheckAty"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,10 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name=".ui.activity.LoginAty"
             android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.smarthome.ui.activity.RegisterAty"
+            android:label="@string/title_activity_mobile_check" >
         </activity>
     </application>
 
