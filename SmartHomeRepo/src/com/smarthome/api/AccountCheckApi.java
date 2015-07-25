@@ -37,7 +37,7 @@ public class AccountCheckApi {
 
 				@Override
 				public void failure(RetrofitError error) {
-					LogUtil.showError("Handle ERROR", error.getResponse().getStatus()+" ----- status ");
+					LogUtil.showError("Handle ERROR", error +" ----- status ");
 					
 					cb.onError(error.getMessage());
 				}

@@ -56,6 +56,7 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 	@Override
 	public void reqRegSuccess(String response) {
 		LogUtil.showError(TAG, response);
+		
 	}
 
 	@Override

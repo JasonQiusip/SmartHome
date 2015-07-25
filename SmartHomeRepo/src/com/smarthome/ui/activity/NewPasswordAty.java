@@ -13,14 +13,14 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class NewPasswordAty extends BaseAty implements OnClickListener, NewPasswordView{
+public class NewPasswordAty extends BaseAty implements View.OnClickListener, NewPasswordView{
 
 	private final String TAG = this.getClass().getName();
 	private NewPasswordPresenter newPasswordPresenter;
 	private String mobile;
 	private EditText edtNewPwdAtyPwd;
 	private EditText edtNewPwdVal;
-	private Button btnReqValCode;
+	private Button btnPwdNew;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -28,18 +28,18 @@ public class NewPasswordAty extends BaseAty implements OnClickListener, NewPassw
 		setContentView(R.layout.activity_newpwd);
 		edtNewPwdAtyPwd = (EditText) findViewById(R.id.edtNewPwdAtyPwd);
 		edtNewPwdVal = (EditText) findViewById(R.id.edtNewPwdVal);
-		btnReqValCode = (Button) findViewById(R.id.btnReqValCode);
-		
+		btnPwdNew = (Button) findViewById(R.id.btnPwdNew);
 		Intent intent = getIntent();
 		mobile = intent.getStringExtra(AccountCheckAty.MOBILE_EXTRA_KEY);
 		newPasswordPresenter = new NewPasswordPresenter(this);
 		newPasswordPresenter.pwdLost(mobile+AccountCheckAty.ACCOUNT_SUFFIX);
+		btnPwdNew.setOnClickListener(this);
 	}
 	
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
-		case R.id.btnReqValCode:
+		case R.id.btnPwdNew:
 			String val = edtNewPwdVal.getText().toString();
 			String pwd = edtNewPwdAtyPwd.getText().toString();
 			newPasswordPresenter.pwdNew(mobile+AccountCheckAty.ACCOUNT_SUFFIX, pwd, val);
