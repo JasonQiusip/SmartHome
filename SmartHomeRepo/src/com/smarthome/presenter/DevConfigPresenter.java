@@ -1,6 +1,6 @@
 package com.smarthome.presenter;
 
-import com.smarthome.view.CustomView;
+import com.smarthome.presenter.view.CustomView;
 
 public class DevConfigPresenter {
 

@@ -3,7 +3,7 @@ package com.smarthome.ui.activity;
 import com.smarthome.R;
 import com.smarthome.presenter.LoginPresenter;
 import com.smarthome.presenter.NewPasswordPresenter;
-import com.smarthome.view.NewPasswordView;
+import com.smarthome.presenter.view.NewPasswordView;
 import com.smarthome.view.common.Constants.PwdNewState;
 
 import android.content.Intent;

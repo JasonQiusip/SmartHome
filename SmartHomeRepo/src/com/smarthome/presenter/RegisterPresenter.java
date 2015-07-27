@@ -7,8 +7,8 @@ import android.util.Log;
 
 import com.smarthome.api.RegisterApi;
 import com.smarthome.api.common.RequestCallback;
-import com.smarthome.view.CustomView;
-import com.smarthome.view.RegisterView;
+import com.smarthome.presenter.view.CustomView;
+import com.smarthome.presenter.view.RegisterView;
 
 public class RegisterPresenter {
 

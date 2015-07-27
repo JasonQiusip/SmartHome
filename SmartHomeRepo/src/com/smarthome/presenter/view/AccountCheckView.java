@@ -1,6 +1,6 @@
-package com.smarthome.view;
+package com.smarthome.presenter.view;
 
-public interface MobileCheckView extends CustomView{
+public interface AccountCheckView extends CustomView{
 	void showLoading();
 	void hideLoading();
 	void onReqSuccess(String response);

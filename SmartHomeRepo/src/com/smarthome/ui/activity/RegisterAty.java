@@ -10,8 +10,8 @@ import android.widget.EditText;
 
 import com.smarthome.R;
 import com.smarthome.presenter.RegisterPresenter;
+import com.smarthome.presenter.view.RegisterView;
 import com.smarthome.tools.MiscUtil;
-import com.smarthome.view.RegisterView;
 import com.smarthome.view.common.Constants.RegisterState;
 import com.smarthome.view.common.Constants.ReqValCodeState;
 

@@ -5,8 +5,8 @@ import org.json.JSONException;
 import com.smarthome.api.ChangePasswordApi;
 import com.smarthome.api.LoginApi;
 import com.smarthome.api.common.RequestCallback;
-import com.smarthome.view.CustomView;
-import com.smarthome.view.LoginView;
+import com.smarthome.presenter.view.CustomView;
+import com.smarthome.presenter.view.LoginView;
 
 public class LoginPresenter {
 

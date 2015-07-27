@@ -14,9 +14,9 @@ import android.util.Log;
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
 
 /**
- * Push消息处理receiver。请编写您需要的回调函数�? �?般来说： onBind是必须的，用来处理startWork返回值；
- * onMessage用来接收透传消息�? onSetTags、onDelTags、onListTags是tag相关操作的回调；
- * onNotificationClicked在�?�知被点击时回调�? onUnbind是stopWork接口的返回�?�回�?
+ * Push消息处理receiver。请编写您需要的回调函数�? �?般来说： onBind是必须的，用来处理startWork返回值；
+ * onMessage用来接收透传消息�? onSetTags、onDelTags、onListTags是tag相关操作的回调；
+ * onNotificationClicked在�?�知被点击时回调�? onUnbind是stopWork接口的返回�?�回�?
  * 
  * 返回值中的errorCode，解释如下： 0 - Success 10001 - Network Problem 30600 - Internal
  * Server Error 30601 - Method Not Allowed 30602 - Request Params Not Valid
@@ -24,7 +24,7 @@ import com.baidu.frontia.api.FrontiaPushMessageReceiver;
  * Data Required Not Found 30606 - Request Time Expires Timeout 30607 - Channel
  * Token Timeout 30608 - Bind Relation Not Found 30609 - Bind Number Too Many
  * 
- * 当您遇到以上返回错误时，如果解释不了您的问题，请用同�?请求的返回�?�requestId和errorCode联系我们追查问题�?
+ * 当您遇到以上返回错误时，如果解释不了您的问题，请用同�?请求的返回�?�requestId和errorCode联系我们追查问题�?
  * 
  */
 public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
@@ -38,19 +38,19 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 
 	/**
 	 * 调用PushManager.startWork后，sdk将对push
-	 * server发起绑定请求，这个过程是异步的�?�绑定请求的结果通过onBind返回�? 如果您需要用单播推�?�，�?要把这里获取的channel
-	 * id和user id上传到应用server中，再调用server接口用channel id和user id给单个手机或者用户推送�??
+	 * server发起绑定请求，这个过程是异步的�?�绑定请求的结果通过onBind返回�? 如果您需要用单播推�?�，�?要把这里获取的channel
+	 * id和user id上传到应用server中，再调用server接口用channel id和user id给单个手机或者用户推送�??
 	 * 
 	 * @param context
 	 *            BroadcastReceiver的执行Context
 	 * @param errorCode
 	 *            绑定接口返回值，0 - 成功
 	 * @param appid
-	 *            应用id。errorCode�?0时为null
+	 *            应用id。errorCode�?0时为null
 	 * @param userId
-	 *            应用user id。errorCode�?0时为null
+	 *            应用user id。errorCode�?0时为null
 	 * @param channelId
-	 *            应用channel id。errorCode�?0时为null
+	 *            应用channel id。errorCode�?0时为null
 	 * @param requestId
 	 *            向服务端发起的请求id。在追查问题时有用；
 	 * @return none
@@ -82,14 +82,14 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 	}
 
 	/**
-	 * 接收透传消息的函数�??
+	 * 接收透传消息的函数�??
 	 * 
 	 * @param context
-	 *            上下�?
+	 *            上下�?
 	 * @param message
-	 *            推�?�的消息
+	 *            推�?�的消息
 	 * @param customContentString
-	 *            自定义内�?,为空或�?�json字符�?
+	 *            自定义内�?,为空或�?�json字符�?
 	 */
 	@Override
 	public void onMessage(Context context, String message,
@@ -98,7 +98,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 				+ "\" customContentString=" + customContentString;
 		Log.d(TAG, messageString);
 
-		// 自定义内容获取方式，mykey和myvalue对应透传消息推�?�时自定义内容中设置的键和�??
+		// 自定义内容获取方式，mykey和myvalue对应透传消息推�?�时自定义内容中设置的键和�??
 		if (!TextUtils.isEmpty(customContentString)) {
 			JSONObject customJson = null;
 			try {
@@ -118,16 +118,16 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 	}
 
 	/**
-	 * 接收通知点击的函数�?�注：推送�?�知被用户点击前，应用无法�?�过接口获取通知的内容�??
+	 * 接收通知点击的函数�?�注：推送�?�知被用户点击前，应用无法�?�过接口获取通知的内容�??
 	 * 
 	 * @param context
-	 *            上下�?
+	 *            上下�?
 	 * @param title
-	 *            推�?�的通知的标�?
+	 *            推�?�的通知的标�?
 	 * @param description
-	 *            推�?�的通知的描�?
+	 *            推�?�的通知的描�?
 	 * @param customContentString
-	 *            自定义内容，为空或�?�json字符�?
+	 *            自定义内容，为空或�?�json字符�?
 	 */
 	@Override
 	public void onNotificationClicked(Context context, String title,
@@ -136,7 +136,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 				+ description + "\" customContent=" + customContentString;
 		Log.d(TAG, notifyString);
 
-		// 自定义内容获取方式，mykey和myvalue对应通知推�?�时自定义内容中设置的键和�??
+		// 自定义内容获取方式，mykey和myvalue对应通知推�?�时自定义内容中设置的键和�??
 		if (!TextUtils.isEmpty(customContentString)) {
 			JSONObject customJson = null;
 			try {
@@ -156,12 +156,12 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 	}
 
 	/**
-	 * setTags() 的回调函数�??
+	 * setTags() 的回调函数�??
 	 * 
 	 * @param context
-	 *            上下�?
+	 *            上下�?
 	 * @param errorCode
-	 *            错误码�??0表示某些tag已经设置成功；非0表示�?有tag的设置均失败�?
+	 *            错误码�??0表示某些tag已经设置成功；非0表示�?有tag的设置均失败�?
 	 * @param successTags
 	 *            设置成功的tag
 	 * @param failTags
@@ -182,12 +182,12 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 	}
 
 	/**
-	 * delTags() 的回调函数�??
+	 * delTags() 的回调函数�??
 	 * 
 	 * @param context
-	 *            上下�?
+	 *            上下文
 	 * @param errorCode
-	 *            错误码�??0表示某些tag已经删除成功；非0表示�?有tag均删除失败�??
+	 *            错误码�??0表示某些tag已经删除成功；非0表示�?有tag均删除失败�??
 	 * @param successTags
 	 *            成功删除的tag
 	 * @param failTags
@@ -208,14 +208,14 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 	}
 
 	/**
-	 * listTags() 的回调函数�??
+	 * listTags() 的回调函数�??
 	 * 
 	 * @param context
-	 *            上下�?
+	 *            上下文
 	 * @param errorCode
-	 *            错误码�??0表示列举tag成功；非0表示失败�?
+	 *            错误码�??0表示列举tag成功；非0表示失败�?
 	 * @param tags
-	 *            当前应用设置的所有tag�?
+	 *            当前应用设置的所有tag�?
 	 * @param requestId
 	 *            分配给对云推送的请求的id
 	 */
@@ -231,12 +231,12 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 	}
 
 	/**
-	 * PushManager.stopWork() 的回调函数�??
+	 * PushManager.stopWork() 的回调函数�??
 	 * 
 	 * @param context
-	 *            上下�?
+	 *            上下�?
 	 * @param errorCode
-	 *            错误码�??0表示从云推�?�解绑定成功；非0表示失败�?
+	 *            错误码�??0表示从云推�?�解绑定成功；非0表示失败�?
 	 * @param requestId
 	 *            分配给对云推送的请求的id
 	 */
@@ -246,7 +246,7 @@ public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
 				+ " requestId = " + requestId;
 		Log.d(TAG, responseString);
 
-		// 解绑定成功，设置未绑定flag�?
+		// 解绑定成功，设置未绑定flag�?
 		if (errorCode == 0) {
 			PushUtils.setBind(context, false);
 		}

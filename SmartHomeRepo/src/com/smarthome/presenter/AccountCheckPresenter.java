@@ -6,17 +6,17 @@ import android.util.Log;
 
 import com.smarthome.api.AccountCheckApi;
 import com.smarthome.api.common.RequestCallback;
-import com.smarthome.view.CustomView;
-import com.smarthome.view.MobileCheckView;
+import com.smarthome.presenter.view.AccountCheckView;
+import com.smarthome.presenter.view.CustomView;
 
 public class AccountCheckPresenter {
 
 	private AccountCheckApi mobileCheckApi;
-	private MobileCheckView view;
+	private AccountCheckView view;
 
 	public AccountCheckPresenter(CustomView view){
 		mobileCheckApi = new AccountCheckApi();
-		this.view = (MobileCheckView)view;
+		this.view = (AccountCheckView)view;
 		
 	}
 	

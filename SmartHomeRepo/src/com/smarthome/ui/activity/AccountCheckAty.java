@@ -2,7 +2,7 @@ package com.smarthome.ui.activity;
 
 import com.smarthome.R;
 import com.smarthome.presenter.AccountCheckPresenter;
-import com.smarthome.view.MobileCheckView;
+import com.smarthome.presenter.view.AccountCheckView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class AccountCheckAty extends BaseAty implements OnClickListener,
-		MobileCheckView {
+		AccountCheckView {
 
 	static final String MOBILE_EXTRA_KEY = "mobile";
 	static final String ACCOUNT_SUFFIX = "@jiashu.com";
@@ -66,14 +66,13 @@ public class AccountCheckAty extends BaseAty implements OnClickListener,
 
 	@Override
 	public void showLoading() {
-		// TODO Auto-generated method stub
-
+		progressDialog.setMessage("ÕýÔÚ¼ì²éÕËºÅ...");
+		progressDialog.show();
 	}
 
 	@Override
 	public void hideLoading() {
-		// TODO Auto-generated method stub
-
+		progressDialog.hide();
 	}
 
 	@Override
@@ -92,7 +91,6 @@ public class AccountCheckAty extends BaseAty implements OnClickListener,
 
 	@Override
 	public void onReqError() {
-		// TODO Auto-generated method stub
 
 	}
 

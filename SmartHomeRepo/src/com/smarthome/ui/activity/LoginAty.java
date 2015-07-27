@@ -2,8 +2,8 @@ package com.smarthome.ui.activity;
 
 import com.smarthome.R;
 import com.smarthome.presenter.LoginPresenter;
+import com.smarthome.presenter.view.LoginView;
 import com.smarthome.tools.LogUtil;
-import com.smarthome.view.LoginView;
 
 import android.content.Intent;
 import android.os.Bundle;
