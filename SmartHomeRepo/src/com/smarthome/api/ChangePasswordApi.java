@@ -4,6 +4,7 @@ import java.util.HashMap;
 import org.json.JSONException;
 
 import com.smarthome.api.common.ApiCommonParams;
+import com.smarthome.api.common.ApiPoolExecutor;
 import com.smarthome.api.common.HttpMethods;
 import com.smarthome.api.common.RequestCallback;
 
@@ -12,7 +13,7 @@ public class ChangePasswordApi {
 	private static final String PWD_LOST = "/pwd_lost";
 	private static final String PWD_NEW = "/pwd_new";
 	public void pwdLost(final String username, final RequestCallback cb){
-		new Thread(new Runnable(){
+		ApiPoolExecutor.getInstance().execute(new Runnable(){
 			
 			@Override
 			public void run() {
@@ -31,7 +32,7 @@ public class ChangePasswordApi {
 				}
 			}
 			
-		}).start();
+		});
 	}
 	
 	public void pwdNew(final String username,final String pwd, final String val, final RequestCallback cb){

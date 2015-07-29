@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.smarthome.api.common.ApiCommonParams;
+import com.smarthome.api.common.ApiPoolExecutor;
 import com.smarthome.api.common.HttpMethods;
 import com.smarthome.api.common.RequestCallback;
 
@@ -18,7 +19,7 @@ public class GetConfigFileApi {
 
 	public static void checkDevArgs(final String pid, final RequestCallback cb) {
 
-		new Thread(new Runnable() {
+		ApiPoolExecutor.getInstance().execute(new Runnable() {
 
 			@Override
 			public void run() {
@@ -37,7 +38,7 @@ public class GetConfigFileApi {
 				}
 			}
 			
-		}).start();
+		});
 
 	}
 	
