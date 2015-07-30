@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import android.util.Log;
 
 import com.linktop.oauth.MiscUtil;
+import com.smarthome.api.model.HttpResponse;
 import com.squareup.okhttp.FormEncodingBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.OkUrlFactory;
@@ -34,14 +35,14 @@ public class HttpMethods {
 	/**
 	 * 
 	 * @param url
-	 * @param dict   鏍煎紡锟�?  a=123&b=456&c=4343
+	 * @param dict   閺嶇厧绱￠敓锟�?  a=123&b=456&c=4343
  	 * @param treeMap
 	 * @return
 	 */
-	public static String[] httpGet(String url, HashMap<String,String> dict, TreeMap<String, String> treeMap) {
+	public static HttpResponse httpGet(String url, HashMap<String,String> dict, TreeMap<String, String> treeMap) {
 		Log.e(""+url, dict+"");
 		
-		String[] strResp = new String[2];
+		HttpResponse httpResp = new HttpResponse();
 		OkHttpClient client = new OkHttpClient();
 		client.setConnectTimeout(8000, TimeUnit.MILLISECONDS);
 		client.setReadTimeout(8000, TimeUnit.MILLISECONDS);
@@ -64,22 +65,22 @@ public class HttpMethods {
 		Request req = reqBuilder.url(url).build();
 		try {
 			Response response = client.newCall(req).execute();
-			strResp[0] = String.valueOf(response.code());
+			httpResp.setCode(response.code());
 			if (response.code() == 200) {
-				strResp[1] = response.body().string();
+				httpResp.setContent(response.body().string());
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
-			strResp[0] = String.valueOf(-1);
+			httpResp.setContent(String.valueOf(-1));
 		}
-		Log.e("", strResp[0]+"  " + strResp[1]);
-		return strResp;
+		Log.e("", httpResp.getCode()+"  " + httpResp.getContent());
+		return httpResp;
 	}
 	
 	/**
 	 * 
 	 * @param url
-	 * @param dict   鏍煎紡锟�?  a=123&b=456&c=4343
+	 * @param dict   閺嶇厧绱￠敓锟�?  a=123&b=456&c=4343
  	 * @param treeMap
 	 * @return
 	 */
@@ -132,7 +133,7 @@ public class HttpMethods {
 			OkHttpClient httpClient = new OkHttpClient();
 			OkUrlFactory okUrlFactory = new OkUrlFactory(httpClient);
 			HttpURLConnection urlConnection = okUrlFactory.open(urlPath);;
-			urlConnection.setConnectTimeout(8000); // 璁剧疆杩炴帴瓒呮椂鏃堕棿
+			urlConnection.setConnectTimeout(8000); // 鐠佸墽鐤嗘潻鐐村复鐡掑懏妞傞弮鍫曟？
 			urlConnection.setReadTimeout(8000);
 			urlConnection.setRequestMethod("GET");
 			urlConnection.connect();
@@ -169,7 +170,7 @@ public class HttpMethods {
 			OkHttpClient httpClient = new OkHttpClient();
 			OkUrlFactory okUrlFactory = new OkUrlFactory(httpClient);
 			HttpURLConnection urlConnection = okUrlFactory.open(urlPath);
-			urlConnection.setConnectTimeout(8000); // 璁剧疆杩炴帴瓒呮椂鏃堕棿
+			urlConnection.setConnectTimeout(8000); // 鐠佸墽鐤嗘潻鐐村复鐡掑懏妞傞弮鍫曟？
 			urlConnection.setReadTimeout(8000);
 			urlConnection.setRequestMethod("POST");
 			urlConnection.setDoInput(true);  
@@ -209,12 +210,12 @@ public class HttpMethods {
 		FormEncodingBuilder formEncodingBuilder = new FormEncodingBuilder();
 		//upload data
 		if(queryParam != null){
-			//鏋勶拷?锟借姹傚弬锟�?
+			//閺嬪嫸鎷�?閿熷�燁嚞濮瑰倸寮敓锟�?
 			for(Entry<String, String> entry : queryParam.entrySet()){
-				//娣诲姞锟�?瀵瑰弬鏁発ey鍜寁alue鍒發ist
+				//濞ｈ濮為敓锟�?鐎电懓寮弫鐧篹y閸滃瘉alue閸掔櫦ist
 				formEncodingBuilder.add(entry.getKey(), entry.getValue());  
 			}
-			//璁剧疆璇锋眰鐨刡ody鍐呭
+			//鐠佸墽鐤嗙拠閿嬬湴閻ㄥ垺ody閸愬懎顔�
 		}
 		
 		return formEncodingBuilder.build();

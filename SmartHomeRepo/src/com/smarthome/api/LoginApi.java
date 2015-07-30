@@ -24,6 +24,7 @@ import com.smarthome.api.common.ConvertTool;
 import com.smarthome.api.common.HttpMethods;
 import com.smarthome.api.common.RC4;
 import com.smarthome.api.common.RequestCallback;
+import com.smarthome.api.model.HttpResponse;
 import com.smarthome.api.model.LoginResult;
 import com.smarthome.tools.LogUtil;
 
@@ -31,7 +32,7 @@ public class LoginApi {
 
 	private static final String GEN_TK = "/gen_tk";
 	private static final Pattern tokenPattern = Pattern.compile("([^|]+:[^|]+)");
-	public void login(final String username, final String pwd, final RequestCallback cb){
+	public void login(final String username, final String pwd, final RequestCallback<LoginResult> cb){
 		ApiPoolExecutor.getInstance().execute(new Runnable(){
 
 			@Override
@@ -40,10 +41,10 @@ public class LoginApi {
 				dict.put("api_key", ApiCommonParams.api_key);
 				dict.put("username", username);
 				dict.put("pwd", pwd);
-				String[] loginResult = HttpMethods.httpGet(ApiCommonParams.AUTHORIZE_URL + GEN_TK, dict, null);
-				if(loginResult[0] != null && loginResult[0].equals("200")){
+				HttpResponse login = HttpMethods.httpGet(ApiCommonParams.AUTHORIZE_URL + GEN_TK, dict, null);
+				if(login.isSuccess()){
 					
-					onLoginSuceess(cb, loginResult);
+					onLoginSuceess(cb, login);
 				}else{
 					cb.onError(null);
 				}
@@ -52,22 +53,21 @@ public class LoginApi {
 		});
 	}
 	
-	void onLoginSuceess(final RequestCallback cb, String[] loginResult) {
+	void onLoginSuceess(final RequestCallback<LoginResult> cb, HttpResponse loginResult) {
 		try {
-			decryptToken(loginResult[1]);
-			cb.onSuccess(loginResult[1]);
+			cb.onSuccess(decryptToken(loginResult.getContent()));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	//exp:{expire}|sec:{secret}|acc:{username}|pkey:{apikey_head4}
-	static void decryptToken(String token) {
+	static LoginResult decryptToken(String token) {
 		byte[] key = convertStringToBytes(ApiCommonParams.encryption_key);
 		RC4 rc4 = new RC4(key);
 		byte[] tokenBytes = convertHexToBytes(token);
 		byte[] decryptTxt = rc4.decrypt(tokenBytes);
-		ApiCommonParams.api_secret = findSecret(decryptTxt);
+		return decryptToken(decryptTxt);
 		
 	}
 
@@ -79,17 +79,22 @@ public class LoginApi {
 		return ConvertTool.hexStrToByteArray(token);
 	}
 
-	private static String findSecret(byte[] decryptTxt) {
+	private static LoginResult decryptToken(byte[] decryptTxt) {
 		
-//		LogUtil.showError("Pattern matcher", ConvertTool.byteArrayToStr(decryptTxt).toString());
 		Matcher matcher = tokenPattern.matcher(new String(decryptTxt));
+		LoginResult loginResult = new LoginResult();
 		while(matcher.find()){
 			String matchedGroup = matcher.group();
-			if(matchedGroup.contains("sec")){
-				return matchedGroup.split(":")[1];
+			String value = matchedGroup.split(":")[1];
+			if(matchedGroup.contains("exp")){
+				loginResult.setExpireTimestamp(value);
+			}else if(matchedGroup.contains("sec")){
+				loginResult.setSecret(value);
+			}else if(matchedGroup.contains("acc")){
+				loginResult.setAccount(value);
 			}
 		}
-		return null;
+		return loginResult;
 	}
 
 	

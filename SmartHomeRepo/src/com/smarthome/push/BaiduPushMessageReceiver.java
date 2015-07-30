@@ -27,9 +27,9 @@ import com.baidu.frontia.api.FrontiaPushMessageReceiver;
  * 当您遇到以上返回错误时，如果解释不了您的问题，请用同�?请求的返回�?�requestId和errorCode联系我们追查问题�?
  * 
  */
-public class MyPushMessageReceiver extends FrontiaPushMessageReceiver {
+public class BaiduPushMessageReceiver extends FrontiaPushMessageReceiver {
 	/** TAG to Log */
-	public static final String TAG = MyPushMessageReceiver.class
+	public static final String TAG = BaiduPushMessageReceiver.class
 			.getSimpleName();
 	
 	String path = null;

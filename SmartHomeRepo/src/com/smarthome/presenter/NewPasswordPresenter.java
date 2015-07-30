@@ -18,7 +18,7 @@ public class NewPasswordPresenter {
 	}
 
 	public void pwdLost(final String username){
-		changePasswordApi.pwdLost(username, new RequestCallback() {
+		changePasswordApi.pwdLost(username, new RequestCallback<String>() {
 			@Override
 			public void onSuccess(String response) throws JSONException {
 				view.onReqPwdLostSuccess(response);
@@ -32,7 +32,7 @@ public class NewPasswordPresenter {
 	
 	
 	public void pwdNew(String username, String pwd, String val){
-		changePasswordApi.pwdNew(username, pwd, val, new RequestCallback() {
+		changePasswordApi.pwdNew(username, pwd, val, new RequestCallback<String>() {
 			@Override
 			public void onSuccess(String response) throws JSONException {
 				view.onReqPwdNewSuccess(response);

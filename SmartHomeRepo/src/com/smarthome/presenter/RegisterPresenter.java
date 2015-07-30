@@ -34,7 +34,7 @@ public class RegisterPresenter {
 	
 	private void reqValCode(String mobile) {
 		this.view.showLoading();
-		registerApi.reqValCode(mobile, new RequestCallback(){
+		registerApi.reqValCode(mobile, new RequestCallback<String>(){
 			@Override
 			public void onSuccess(String response) throws JSONException {
 				Log.e(TAG, response);
@@ -52,7 +52,7 @@ public class RegisterPresenter {
 	
 	private void register(String account, String pwd, String val) {
 		this.view.showLoading();
-		registerApi.register(account, pwd, val, new RequestCallback(){
+		registerApi.register(account, pwd, val, new RequestCallback<String>(){
 			@Override
 			public void onSuccess(String response) throws JSONException {
 				Log.e(TAG, response);
@@ -72,7 +72,7 @@ public class RegisterPresenter {
 	//for test only
 	public void getValCode(String mobile) {
 		this.view.showLoading();
-		registerApi.getValcode(mobile, new RequestCallback(){
+		registerApi.getValcode(mobile, new RequestCallback<String>(){
 			@Override
 			public void onSuccess(String response) throws JSONException {
 				Log.e(TAG, response);

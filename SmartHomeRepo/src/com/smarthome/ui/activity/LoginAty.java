@@ -1,11 +1,15 @@
 package com.smarthome.ui.activity;
 
 import com.smarthome.R;
+import com.smarthome.api.model.LoginResult;
 import com.smarthome.presenter.LoginPresenter;
 import com.smarthome.presenter.view.LoginView;
 import com.smarthome.tools.LogUtil;
+import com.smarthome.tools.SharedPreferenceUtils;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -34,7 +38,7 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 		btnForgetPwd.setOnClickListener(this);
 		Intent intent = getIntent();
 		mobile = intent.getStringExtra(AccountCheckAty.MOBILE_EXTRA_KEY);
-		
+				
 	}
 
 	@Override
@@ -54,9 +58,15 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 	}
 
 	@Override
-	public void reqRegSuccess(String response) {
-		LogUtil.showError(TAG, response);
-		
+	public void onLoginSuccess(LoginResult response) {
+		LogUtil.showError(TAG, response.getExpireTimestamp()+" " +response.getSecret());
+		storeAccountApiSecretToSp(response);
+	}
+
+	private void storeAccountApiSecretToSp(LoginResult response) {
+		SharedPreferences accountPref = SharedPreferenceUtils.LoginSp.getAccountPref(this);
+		SharedPreferenceUtils.LoginSp.putAccount(accountPref, response.getAccount());
+		SharedPreferenceUtils.LoginSp.putSecret(accountPref, response.getSecret());
 	}
 
 	@Override

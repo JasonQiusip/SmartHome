@@ -4,8 +4,8 @@ import org.json.JSONException;
 
 import com.smarthome.api.model.RegResult;
 
-public interface RequestCallback {
+public interface RequestCallback<T> {
 
-	void onSuccess(String result) throws JSONException;
+	void onSuccess(T result) throws JSONException;
 	void onError(String errorMsg);
 }

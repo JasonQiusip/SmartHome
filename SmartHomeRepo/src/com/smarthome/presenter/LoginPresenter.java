@@ -1,10 +1,8 @@
 package com.smarthome.presenter;
 
-import org.json.JSONException;
-
-import com.smarthome.api.ChangePasswordApi;
 import com.smarthome.api.LoginApi;
 import com.smarthome.api.common.RequestCallback;
+import com.smarthome.api.model.LoginResult;
 import com.smarthome.presenter.view.CustomView;
 import com.smarthome.presenter.view.LoginView;
 
@@ -20,10 +18,10 @@ public class LoginPresenter {
 	}
 	
 	public void login(final String username, final String pwd){
-		loginApi.login(username, pwd, new RequestCallback() {
+		loginApi.login(username, pwd, new RequestCallback<LoginResult>() {
 			@Override
-			public void onSuccess(String response) throws JSONException {
-				view.reqRegSuccess(response);
+			public void onSuccess(LoginResult response) {
+//				view.reqRegSuccess(response);
 			}
 			@Override
 			public void onError(String errorMsg) {

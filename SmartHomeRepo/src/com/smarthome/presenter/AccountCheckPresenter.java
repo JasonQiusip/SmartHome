@@ -27,7 +27,7 @@ public class AccountCheckPresenter {
 	
 	private void checkAccount(String account) {
 		view.showLoading();
-		mobileCheckApi.checkAccount(account, new RequestCallback(){
+		mobileCheckApi.checkAccount(account, new RequestCallback<String>(){
 			@Override
 			public void onSuccess(String response) throws JSONException {
 				view.hideLoading();
