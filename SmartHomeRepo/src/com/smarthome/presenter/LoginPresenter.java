@@ -21,7 +21,7 @@ public class LoginPresenter {
 		loginApi.login(username, pwd, new RequestCallback<LoginResult>() {
 			@Override
 			public void onSuccess(LoginResult response) {
-//				view.reqRegSuccess(response);
+				view.onLoginSuccess(response);
 			}
 			@Override
 			public void onError(String errorMsg) {

@@ -61,6 +61,7 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 	public void onLoginSuccess(LoginResult response) {
 		LogUtil.showError(TAG, response.getExpireTimestamp()+" " +response.getSecret());
 		storeAccountApiSecretToSp(response);
+		startMainContentAty();
 	}
 
 	private void storeAccountApiSecretToSp(LoginResult response) {
@@ -98,5 +99,10 @@ public class LoginAty extends BaseAty implements LoginView, OnClickListener {
 		startActivity(intent);
 	}
 
+	private void startMainContentAty() {
+		Intent intent = new Intent();
+		intent.setClass(this, MainContentAty.class);
+		startActivity(intent);
+	}
 
 }

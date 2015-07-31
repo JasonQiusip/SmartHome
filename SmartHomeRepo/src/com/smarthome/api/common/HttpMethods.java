@@ -84,13 +84,12 @@ public class HttpMethods {
  	 * @param treeMap
 	 * @return
 	 */
-	public static String[] httpPost(String url, HashMap<String,String> dict, TreeMap<String, String> treeMap)
+	public static HttpResponse httpPost(String url, HashMap<String,String> dict, TreeMap<String, String> treeMap)
 	{
 		Log.e("httpPost ", url + " " + dict);
-		String[] resp = new String[2];
-		resp[0] = String.valueOf(-1);
-		resp[1] = CONTROL_FAIL;
-		
+		HttpResponse httpResponse = new HttpResponse();
+		httpResponse.setCode(-1);
+		httpResponse.setContent(CONTROL_FAIL);
 		OkHttpClient client = new OkHttpClient();
 		client.setConnectTimeout(8000, TimeUnit.MILLISECONDS);
 		client.setReadTimeout(8000, TimeUnit.MILLISECONDS);
@@ -109,17 +108,15 @@ public class HttpMethods {
 	      .build();
 		try {
 			Response response = client.newCall(request).execute();
-			resp[0] = String.valueOf(response.code());
+			httpResponse.setCode(response.code());
 			if (response.code() == 200) {
-				resp[1] = response.body().string();
+				httpResponse.setContent(response.body().string());
 			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
-			resp[0] = String.valueOf(-1);
-			resp[1] = CONTROL_FAIL;
 		}
 		
-        return resp;
+        return httpResponse;
 	}
 
 	public static byte[] httpGet(String url)

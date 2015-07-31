@@ -76,12 +76,13 @@ public class LoginApi {
 	}
 	
 	static byte[] convertHexToBytes(String token){
-		return ConvertTool.hexStrToByteArray(token);
+		return ConvertTool.hexStringToByteArray(token);
 	}
 
 	private static LoginResult decryptToken(byte[] decryptTxt) {
+		Log.e("decryptToken  ", ConvertTool.byteArrayToStr(decryptTxt).toString());
 		
-		Matcher matcher = tokenPattern.matcher(new String(decryptTxt));
+		Matcher matcher = tokenPattern.matcher(ConvertTool.byteArrayToStr(decryptTxt).toString());
 		LoginResult loginResult = new LoginResult();
 		while(matcher.find()){
 			String matchedGroup = matcher.group();

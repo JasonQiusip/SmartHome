@@ -2,6 +2,7 @@ package com.smarthome.api.model;
 
 public class DeviceStatus {
 	
+	String pid;
 	int bluetooth;
 	int wifi;
 	int volumn;
@@ -12,6 +13,13 @@ public class DeviceStatus {
 	String powerUpTime;
 	String powerOffTime;
 	
+	
+	public String getPid() {
+		return pid;
+	}
+	public void setPid(String pid) {
+		this.pid = pid;
+	}
 	public int getBluetooth() {
 		return bluetooth;
 	}

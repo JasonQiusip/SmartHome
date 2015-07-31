@@ -7,12 +7,13 @@ import com.smarthome.api.common.ApiCommonParams;
 import com.smarthome.api.common.ApiPoolExecutor;
 import com.smarthome.api.common.HttpMethods;
 import com.smarthome.api.common.RequestCallback;
+import com.smarthome.api.model.HttpResponse;
 
 public class ChangePasswordApi {
 	
 	private static final String PWD_LOST = "/pwd_lost";
 	private static final String PWD_NEW = "/pwd_new";
-	public void pwdLost(final String username, final RequestCallback cb){
+	public void pwdLost(final String username, final RequestCallback<String> cb){
 		ApiPoolExecutor.getInstance().execute(new Runnable(){
 			
 			@Override
@@ -20,10 +21,10 @@ public class ChangePasswordApi {
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("api_key", ApiCommonParams.api_key);
 				dict.put("account", username);
-				String[] httpGet = HttpMethods.httpPost(ApiCommonParams.AUTHORIZE_URL + PWD_LOST, dict, null);
-				if(httpGet[0] != null && httpGet[0].equals("200")){
+				HttpResponse pwdLostReq = HttpMethods.httpPost(ApiCommonParams.AUTHORIZE_URL + PWD_LOST, dict, null);
+				if(pwdLostReq.isSuccess()){
 					try {
-						cb.onSuccess(httpGet[1]);
+						cb.onSuccess(pwdLostReq.getContent());
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -35,7 +36,7 @@ public class ChangePasswordApi {
 		});
 	}
 	
-	public void pwdNew(final String username,final String pwd, final String val, final RequestCallback cb){
+	public void pwdNew(final String username,final String pwd, final String val, final RequestCallback<String> cb){
 		new Thread(new Runnable(){
 			
 			@Override
@@ -44,10 +45,10 @@ public class ChangePasswordApi {
 				dict.put("pwd", pwd);
 				dict.put("account", username);
 				dict.put("val", val);
-				String[] httpGet = HttpMethods.httpPost(ApiCommonParams.AUTHORIZE_URL + PWD_NEW, dict, null);
-				if(httpGet[0] != null && httpGet[0].equals("200")){
+				HttpResponse pwdNewReq = HttpMethods.httpPost(ApiCommonParams.AUTHORIZE_URL + PWD_NEW, dict, null);
+				if(pwdNewReq.isSuccess()){
 					try {
-						cb.onSuccess(httpGet[1]);
+						cb.onSuccess(pwdNewReq.getContent());
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}

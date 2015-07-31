@@ -1,8 +1,8 @@
 package com.smarthome;
 
-import android.app.Application;
+import com.baidu.frontia.FrontiaApplication;
 
-public class SmartHomeApplication extends Application {
+public class SmartHomeApplication extends FrontiaApplication {
 	
 	
 	
