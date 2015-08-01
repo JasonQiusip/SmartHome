@@ -1,5 +1,7 @@
 package com.smarthome.api.model;
 
+import android.util.Log;
+
 public class HttpResponse {
 	
 	int code;
@@ -11,12 +13,14 @@ public class HttpResponse {
 	}
 	public void setCode(int code) {
 		this.code = code;
+		Log.e("code  ", code+"");
 	}
 	public String getContent() {
 		return content;
 	}
 	public void setContent(String content) {
 		this.content = content;
+		Log.e("content   ", content);
 	}
 	
 	public boolean isSuccess(){

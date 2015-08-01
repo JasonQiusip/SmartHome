@@ -30,7 +30,7 @@ public class GetConfigFileApi {
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", pid);
 				dict.put("savedTime", savedTime);
-				HttpResponse dispatchConfReq = HttpMethods.httpPost(HOST + dispatchConf, dict, null);
+				HttpResponse dispatchConfReq = HttpMethods.httpGet(HOST + dispatchConf, dict, null);
 				if(dispatchConfReq.isSuccess()){
 					try {
 						cb.onSuccess(dispatchConfReq.getContent());
@@ -55,7 +55,7 @@ public class GetConfigFileApi {
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", pid);
 				dict.put("action", action.name());
-				HttpResponse devCtrlResp = HttpMethods.httpPost(HOST + devCtrl, dict, null);
+				HttpResponse devCtrlResp = HttpMethods.httpGet(HOST + devCtrl, dict, null);
 				if(devCtrlResp.isSuccess()){
 					try {
 						cb.onSuccess(devCtrlResp.getContent());
@@ -73,7 +73,7 @@ public class GetConfigFileApi {
 	
 	
 	
-	public static void checkDevArgs(final DeviceStatus devStatus, final RequestCallback<String> cb) {
+	public static void changeDevArgs(final DeviceStatus devStatus, final RequestCallback<String> cb) {
 
 		ApiPoolExecutor.getInstance().execute(new Runnable() {
 
@@ -84,9 +84,8 @@ public class GetConfigFileApi {
 				dict.put("pid", devStatus.getPid());
 				dict.put("payload", payloadObj.toString());
 				TreeMap<String, String> header = new TreeMap<String, String>();
-				dict.put("Username", "hxy@163.com");
-				HttpResponse checkDevResp = HttpMethods.httpPost(
-						HOST + devCheckUrl, dict, header);
+				header.put("Username", "18606092764@jiashu.com");
+				HttpResponse checkDevResp = HttpMethods.httpPost(HOST + devChangeUrl, dict, header);
 				if(checkDevResp.isSuccess()){
 					try {
 						cb.onSuccess(checkDevResp.getContent());
@@ -110,6 +109,7 @@ public class GetConfigFileApi {
 					payloadObj.put("cellular", devStatus.getCellular());
 					payloadObj.put("power_up", devStatus.getPowerUpTime());
 					payloadObj.put("power_off", devStatus.getPowerOffTime());
+					
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -120,16 +120,16 @@ public class GetConfigFileApi {
 
 	}
 	
-	public static void changeDevArgs(final String cmd, final int value, final RequestCallback<String> cb) {
+	public static void checkDevArgs(final String pid,final RequestCallback<String> cb) {
 		ApiPoolExecutor.getInstance().execute(new Runnable() {
 
 			@Override
 			public void run() {
 				TreeMap<String, String> header = new TreeMap<String, String>();
-				header.put("Content-Type", "application/json; charset=utf-8");
+				header.put("Username", "hxy@163.com");
 				HashMap<String, String> dict = new HashMap<String, String>();
-				dict.put(cmd, String.valueOf(value));
-				HttpResponse checkDevResp = HttpMethods.httpPost(HOST + devChangeUrl, dict, header);
+				dict.put("pid", pid);
+				HttpResponse checkDevResp = HttpMethods.httpGet(HOST + devCheckUrl, dict, header);
 				if(checkDevResp.isSuccess()){
 					try {
 						cb.onSuccess(checkDevResp.getContent());

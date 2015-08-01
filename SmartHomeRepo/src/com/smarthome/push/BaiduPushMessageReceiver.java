@@ -8,10 +8,14 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
+import com.smarthome.api.PushApi;
+import com.smarthome.api.common.RequestCallback;
+import com.smarthome.tools.SharedPreferenceUtils;
 
 /**
  * Push消息处理receiver。请编写您需要的回调函数�? �?般来说： onBind是必须的，用来处理startWork返回值；
@@ -58,27 +62,33 @@ public class BaiduPushMessageReceiver extends FrontiaPushMessageReceiver {
 	@Override
 	public void onBind(Context context, int errorCode, String appid,
 			String userId, String channelId, String requestId) {
-		String responseString = "onBind errorCode=" + errorCode + " appid="
-				+ appid + " userId=" + userId + " channelId=" + channelId
-				+ " requestId=" + requestId;
-		path = "http://192.168.2.168:8100/account/bind_push?account=hxy@163.com&os=and&ver=0.1&args=baidu,"
-				+ appid + "," + userId + "," + channelId;
-		
-		Log.d(TAG, responseString);			
-		
-		// 绑定成功，设置已绑定flag，可以有效的减少不必要的绑定请求
-		if (errorCode == 0) {
-			PushUtils.setBind(context, true);		
-			if(mThread==null)
-			{		
-			    mThread = new Thread(runnable);
-	            mThread.start();
-			}
-		}
+		bindBaiduPush(context, appid, userId, channelId);
 		
 		// Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
-		updateContent(context, responseString);
 		updateContent(context, path);
+	}
+
+	private void bindBaiduPush(Context context, String appid, String userId,
+			String channelId) {
+		SharedPreferences accountPref = SharedPreferenceUtils.LoginSp.getAccountPref(context);
+		String account = SharedPreferenceUtils.LoginSp.getAccount(accountPref);
+		BaiduPushModel baiduPushModel = new BaiduPushModel();
+		baiduPushModel.setAppId(appid);
+		baiduPushModel.setChannelId(channelId);
+		baiduPushModel.setUserId(userId);
+		
+		PushApi.bindBaiduPush(account, baiduPushModel, new RequestCallback<String>() {
+			
+			@Override
+			public void onSuccess(String result) throws JSONException {
+				
+			}
+			
+			@Override
+			public void onError(String errorMsg) {
+				
+			}
+		});
 	}
 
 	/**
@@ -96,23 +106,6 @@ public class BaiduPushMessageReceiver extends FrontiaPushMessageReceiver {
 			String customContentString) {
 		String messageString = "透传消息 message=\"" + message
 				+ "\" customContentString=" + customContentString;
-		Log.d(TAG, messageString);
-
-		// 自定义内容获取方式，mykey和myvalue对应透传消息推�?�时自定义内容中设置的键和�??
-		if (!TextUtils.isEmpty(customContentString)) {
-			JSONObject customJson = null;
-			try {
-				customJson = new JSONObject(customContentString);
-				String myvalue = null;
-				if (!customJson.isNull("mykey")) {
-					myvalue = customJson.getString("mykey");
-				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
 		// Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
 		updateContent(context, messageString);
 	}
@@ -134,23 +127,6 @@ public class BaiduPushMessageReceiver extends FrontiaPushMessageReceiver {
 			String description, String customContentString) {
 		String notifyString = "通知点击 title=\"" + title + "\" description=\""
 				+ description + "\" customContent=" + customContentString;
-		Log.d(TAG, notifyString);
-
-		// 自定义内容获取方式，mykey和myvalue对应通知推�?�时自定义内容中设置的键和�??
-		if (!TextUtils.isEmpty(customContentString)) {
-			JSONObject customJson = null;
-			try {
-				customJson = new JSONObject(customContentString);
-				String myvalue = null;
-				if (!customJson.isNull("mykey")) {
-					myvalue = customJson.getString("mykey");
-				}
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
 		// Demo更新界面展示代码，应用请在这里加入自己的处理逻辑
 		updateContent(context, notifyString);
 	}

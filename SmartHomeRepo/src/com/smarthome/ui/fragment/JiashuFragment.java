@@ -15,6 +15,9 @@ import com.smarthome.ui.activity.MainContentAty;
 public class JiashuFragment extends BaseFragment implements View.OnClickListener {
 	
 	
+	public static final String REVEAL_BG_START_POSITION = "revealBgStartPosition";
+	private static final String value = null;
+
 	@Override
 	@Nullable
 	public View onCreateView(LayoutInflater inflater,
@@ -31,14 +34,24 @@ public class JiashuFragment extends BaseFragment implements View.OnClickListener
 	public void onClick(View v) {
 		switch(v.getId()){
 		case R.id.jiashuDevManageBtn:
-			startDevMangeAty();
+			int[] btnPosition = getCurrentButtonPosition(v);
+			startDevMangeAty(btnPosition);
 			break;
 		}
 	}
 	
-	private void startDevMangeAty(){
+	private int[] getCurrentButtonPosition(View v) {
+		int[] devManageBtnPosition = new int[2];
+		v.getLocationOnScreen(devManageBtnPosition);
+		devManageBtnPosition[0] += v.getWidth() / 2;
+		return devManageBtnPosition;
+	}
+
+	private void startDevMangeAty(int[] devManageBtnPosition){
 		Intent intent = new Intent();
 		intent.setClass(getActivity(), DevManageAty.class);
+		intent.putExtra(REVEAL_BG_START_POSITION, devManageBtnPosition);
 		startActivity(intent);
+		getActivity().overridePendingTransition(0, 0);
 	}
 }

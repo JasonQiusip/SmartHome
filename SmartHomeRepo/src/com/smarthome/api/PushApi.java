@@ -15,7 +15,7 @@ import com.smarthome.push.BaiduPushModel;
 public class PushApi {
 
 	private static final String HOST = ApiCommonParams.API_URL;
-	private static final String BIND_BAIDU_PUSH = "/bind_push";
+	private static final String BIND_BAIDU_PUSH = "/account/bind_push";
 
 	public static void bindBaiduPush(final String account, final BaiduPushModel baiduPushModel,
 			final RequestCallback<String> cb){
@@ -45,8 +45,11 @@ public class PushApi {
 			private String buildPushArgs(final BaiduPushModel baiduPushModel) {
 				StringBuilder pushArgsStrBuilder = new StringBuilder();
 				pushArgsStrBuilder.append("baidu");
+				pushArgsStrBuilder.append(",");
 				pushArgsStrBuilder.append(baiduPushModel.getAppId());
+				pushArgsStrBuilder.append(",");
 				pushArgsStrBuilder.append(baiduPushModel.getUserId());
+				pushArgsStrBuilder.append(",");
 				pushArgsStrBuilder.append(baiduPushModel.getChannelId());
 				return pushArgsStrBuilder.toString();
 			}

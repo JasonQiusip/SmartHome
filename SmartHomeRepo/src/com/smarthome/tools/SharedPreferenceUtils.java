@@ -15,10 +15,10 @@ public class SharedPreferenceUtils {
 		}
 		
 		public static void putAccount(SharedPreferences sp, String account){
-			sp.edit().putString(ACCOUNT, account);
+			sp.edit().putString(ACCOUNT, account).commit();
 		}
 		public static void putSecret(SharedPreferences sp, String secret){
-			sp.edit().putString(API_SECRET, secret);
+			sp.edit().putString(API_SECRET, secret).commit();
 		}
 		
 		public static String getAccount(SharedPreferences sp){

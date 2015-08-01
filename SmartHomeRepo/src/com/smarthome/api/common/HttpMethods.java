@@ -53,7 +53,7 @@ public class HttpMethods {
 		{
 			url = url+"?"+queryParam;
 		}
-		Log.e("", url+ "  " +queryParam);
+		Log.e("", url+ "  ");
 		Builder reqBuilder = new Request.Builder();
 		if(treeMap != null){
 			for(String key : treeMap.keySet())
@@ -73,7 +73,6 @@ public class HttpMethods {
 			e1.printStackTrace();
 			httpResp.setContent(String.valueOf(-1));
 		}
-		Log.e("", httpResp.getCode()+"  " + httpResp.getContent());
 		return httpResp;
 	}
 	

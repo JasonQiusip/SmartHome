@@ -72,7 +72,7 @@ public class AccountCheckAty extends BaseAty implements OnClickListener,
 
 	@Override
 	public void hideLoading() {
-		progressDialog.hide();
+		progressDialog.dismiss();
 	}
 
 	@Override
