@@ -3,9 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <com.android.support.v4.ViewPager
+    
+    <include 
+         android:id="@+id/mainContentToolbar"
+         layout="@layout/view_toolbar"/>"
+    
+    <android.support.v4.view.ViewPager
         android:id="@+id/mainContentViewPager"
+        android:layout_below="@id/mainContentToolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+         <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="59dp"
+        android:text="Button" />
+    </LinearLayout>
+
+   
 
 </RelativeLayout>

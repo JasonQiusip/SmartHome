@@ -1,8 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/devManageRootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" xmlns:app1="http://schemas.android.com/apk/res/com.smarthome">
     
 
-</LinearLayout>
+    <include 
+         android:id="@+id/mainContentToolbar"
+         layout="@layout/view_toolbar"/>
+
+		<LinearLayout 
+		    android:id="@+id/devManageOnoffSettingLayout"
+		    android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="8dp"
+		    android:orientation="horizontal"
+		    android:layout_below="@+id/devManageProfileLayout"
+		    >
+         <TextView
+             android:id="@+id/devManageBluetoothTv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:gravity="center"
+             android:drawableTop="@drawable/bluetoothoff"
+             android:drawablePadding="2dp"
+             android:text="蓝牙"
+              />
+         
+         <TextView
+             android:id="@+id/devManageWifiTv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:gravity="center"
+             android:drawablePadding="2dp"
+             android:text="Wifi"
+             android:drawableTop="@drawable/wifioff" />
+         
+         <TextView
+             android:id="@+id/devManageVolumeTv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:gravity="center"
+             android:text="音量"
+             android:drawablePadding="2dp"
+             android:drawableTop="@drawable/volume_medium" />
+         
+         <TextView
+             android:id="@+id/devManageBrightTv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_weight="1"
+             android:gravity="center"
+             android:text="亮度"
+             android:drawablePadding="2dp"
+             android:drawableTop="@drawable/brightness" />
+         </LinearLayout>
+         <LinearLayout 
+             android:id="@+id/devManageOtherSettingLayout"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="32dp"
+             android:layout_below="@id/devManageOnoffSettingLayout"
+             >
+           <TextView
+             android:id="@+id/devManagePowerOnTv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:paddingLeft="16dp"
+             android:gravity="center"
+             android:text="开机时间"
+             android:layout_weight="1"
+             android:drawablePadding="2dp"
+             android:drawableLeft="@drawable/wakeup_reminder" />
+         
+         <TextView
+             android:id="@+id/devManagePowerOffTv"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+              android:layout_weight="1"
+              android:paddingLeft="16dp"
+             android:gravity="center"
+             android:text="关机时间"
+             android:drawablePadding="2dp"
+             android:drawableLeft="@drawable/poweroff" />
+         </LinearLayout>
+     <RelativeLayout 
+        android:id="@+id/devManageProfileLayout"
+        android:layout_below="@id/mainContentToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/devInfoFrameHeight">
+          <com.smarthome.ui.view.RevealBackgroundView
+        	android:id="@+id/devManageRevealView"
+        	android:layout_width="match_parent"
+        	android:layout_height="match_parent"
+        />
+
+          <Button
+              android:id="@+id/checkDevBtn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentLeft="true"
+              android:layout_alignParentTop="true"
+              android:layout_marginLeft="73dp"
+              android:layout_marginTop="36dp"
+              android:text="check_dev" />
+
+          <Button
+              android:id="@+id/devControlBtn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignBottom="@+id/checkDevBtn"
+              android:layout_marginLeft="16dp"
+              android:layout_toRightOf="@+id/checkDevBtn"
+              android:text="devControl" />
+
+          <Button
+              android:id="@+id/dispatchConfigBtn"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignLeft="@+id/checkDevBtn"
+              android:layout_alignParentBottom="true"
+              android:text="dispatchConfig" />
+
+          <Button
+              android:id="@+id/changeDevArgsBtn"
+              style="?android:attr/buttonStyleSmall"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentBottom="true"
+              android:layout_alignParentRight="true"
+              android:text="change" />
+
+    </RelativeLayout>
+</RelativeLayout>
