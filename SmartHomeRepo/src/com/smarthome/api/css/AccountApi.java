@@ -1,4 +1,4 @@
-package com.smarthome.api;
+package com.smarthome.api.css;
 
 import com.smarthome.api.common.ApiPoolExecutor;
 import com.smarthome.api.common.RequestCallback;

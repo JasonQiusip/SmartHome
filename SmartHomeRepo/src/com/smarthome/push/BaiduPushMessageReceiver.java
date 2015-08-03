@@ -13,8 +13,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.baidu.frontia.api.FrontiaPushMessageReceiver;
-import com.smarthome.api.PushApi;
 import com.smarthome.api.common.RequestCallback;
+import com.smarthome.api.css.PushApi;
 import com.smarthome.tools.SharedPreferenceUtils;
 
 /**
@@ -76,8 +76,8 @@ public class BaiduPushMessageReceiver extends FrontiaPushMessageReceiver {
 		baiduPushModel.setAppId(appid);
 		baiduPushModel.setChannelId(channelId);
 		baiduPushModel.setUserId(userId);
-		
-		PushApi.bindBaiduPush(account, baiduPushModel, new RequestCallback<String>() {
+		PushApi pushApi = new PushApi();
+		pushApi.bindBaiduPush(account, baiduPushModel, new RequestCallback<String>() {
 			
 			@Override
 			public void onSuccess(String result) throws JSONException {

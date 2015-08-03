@@ -1,6 +1,10 @@
-package com.smarthome.tools;
+package com.smarthome.api.common;
 
 import java.io.File;
+import java.io.IOException;
+
+import com.jakewharton.disklrucache.DiskLruCache;
+import com.smarthome.SmartHomeApplication;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -9,8 +13,17 @@ import android.os.Environment;
 
 public class CacheUtil {
 	
+	public static DiskLruCache openDiskLruCache(String uniqueName) throws IOException{
+		File fileToStore = getDiskCacheDir(SmartHomeApplication.getApplication(), uniqueName);
+		if(!fileToStore.exists())
+			fileToStore.mkdirs();
+		int appVer = getAppVersion(SmartHomeApplication.getApplication());
+		DiskLruCache diskLruCache = DiskLruCache.open(fileToStore, appVer, 1, 1024*1024*10);
+		return diskLruCache;
+	}
 	
-	public File getDiskCacheDir(Context context, String uniqueName) {
+	
+	public static File getDiskCacheDir(Context context, String uniqueName) {
 		String cachePath;
 		if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())
 				|| !Environment.isExternalStorageRemovable()) {
@@ -21,7 +34,7 @@ public class CacheUtil {
 		return new File(cachePath + File.separator + uniqueName);
 	}
 	
-	public int getAppVersion(Context context) {
+	public static int getAppVersion(Context context) {
 		try {
 	      PackageInfo info = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
 	      return info.versionCode;
@@ -30,4 +43,6 @@ public class CacheUtil {
 	    }
 	    return 1;
 	}
+	
+	
 }

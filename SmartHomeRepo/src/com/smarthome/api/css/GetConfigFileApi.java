@@ -1,4 +1,4 @@
-package com.smarthome.api;
+package com.smarthome.api.css;
 
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -6,23 +6,31 @@ import java.util.TreeMap;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.linktop.oauth.OAuthUtil;
 import com.smarthome.api.common.ApiCommonParams;
 import com.smarthome.api.common.ApiPoolExecutor;
 import com.smarthome.api.common.HttpMethods;
 import com.smarthome.api.common.RequestCallback;
+import com.smarthome.api.common.TokenDispatcher;
+import com.smarthome.api.model.DelegateHttpRequest;
 import com.smarthome.api.model.DevCtrlAction;
 import com.smarthome.api.model.DeviceStatus;
+import com.smarthome.api.model.HttpMethodType;
 import com.smarthome.api.model.HttpResponse;
 
-public class GetConfigFileApi {
+public class GetConfigFileApi extends CSSBaseApi{
 
-	private static final String HOST = ApiCommonParams.API_URL;
+	private static final String HOST = ApiCommonParams.PUSH_URL;
 	private static final String devCheckUrl = "/dev/check_dev_args";
 	private static final String devChangeUrl = "/dev/change_dev_args";
 	private static final String dispatchConf = "/dev/dispatch_conf";
 	private static final String devCtrl = "/dev/dev_ctrl";
 	
-	public static void dispatchConf(final String pid, final String savedTime, final RequestCallback<String> cb) {
+	public GetConfigFileApi() {
+		super();
+	}
+	
+	public void dispatchConf(final String pid, final String savedTime, final RequestCallback<String> cb) {
 		ApiPoolExecutor.getInstance().execute(new Runnable() {
 
 			@Override
@@ -30,7 +38,9 @@ public class GetConfigFileApi {
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", pid);
 				dict.put("savedTime", savedTime);
-				HttpResponse dispatchConfReq = HttpMethods.httpGet(HOST + dispatchConf, dict, null);
+				DelegateHttpRequest request = new DelegateHttpRequest(HttpMethodType.Get, HOST + dispatchConf);
+				request.setBody(dict);
+				HttpResponse dispatchConfReq = TokenDispatcher.delegateHttpWithToken(request);
 				if(dispatchConfReq.isSuccess()){
 					try {
 						cb.onSuccess(dispatchConfReq.getContent());
@@ -47,7 +57,7 @@ public class GetConfigFileApi {
 	}
 	
 	
-	public static void devCtrl(final String pid, final DevCtrlAction action, final RequestCallback<String> cb) {
+	public void devCtrl(final String pid, final DevCtrlAction action, final RequestCallback<String> cb) {
 		ApiPoolExecutor.getInstance().execute(new Runnable() {
 
 			@Override
@@ -55,7 +65,9 @@ public class GetConfigFileApi {
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", pid);
 				dict.put("action", action.name());
-				HttpResponse devCtrlResp = HttpMethods.httpGet(HOST + devCtrl, dict, null);
+				DelegateHttpRequest request = new DelegateHttpRequest(HttpMethodType.Get, HOST + devCtrl);
+				request.setBody(dict);
+				HttpResponse devCtrlResp = TokenDispatcher.delegateHttpWithToken(request);
 				if(devCtrlResp.isSuccess()){
 					try {
 						cb.onSuccess(devCtrlResp.getContent());
@@ -73,19 +85,23 @@ public class GetConfigFileApi {
 	
 	
 	
-	public static void changeDevArgs(final DeviceStatus devStatus, final RequestCallback<String> cb) {
+	public void changeDevArgs(final DeviceStatus devStatus, final RequestCallback<String> cb) {
 
 		ApiPoolExecutor.getInstance().execute(new Runnable() {
 
 			@Override
 			public void run() {
+				if(devStatus == null){
+					cb.onError("Device status cannot be NULL.");
+					return;
+				}
 				JSONObject payloadObj = buildPayloadStr(devStatus);
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", devStatus.getPid());
 				dict.put("payload", payloadObj.toString());
-				TreeMap<String, String> header = new TreeMap<String, String>();
-				header.put("Username", "18606092764@jiashu.com");
-				HttpResponse checkDevResp = HttpMethods.httpPost(HOST + devChangeUrl, dict, header);
+				DelegateHttpRequest request = new DelegateHttpRequest(HttpMethodType.Post, HOST + devChangeUrl);
+				request.setBody(dict);
+				HttpResponse checkDevResp = TokenDispatcher.delegateHttpWithToken(request);
 				if(checkDevResp.isSuccess()){
 					try {
 						cb.onSuccess(checkDevResp.getContent());
@@ -93,7 +109,7 @@ public class GetConfigFileApi {
 						e.printStackTrace();
 					}
 				}else{
-					cb.onError(null);
+					cb.onError(checkDevResp.getCode()+"");
 				}
 			}
 			
@@ -120,16 +136,16 @@ public class GetConfigFileApi {
 
 	}
 	
-	public static void checkDevArgs(final String pid,final RequestCallback<String> cb) {
+	public void checkDevArgs(final String pid,final RequestCallback<String> cb) {
 		ApiPoolExecutor.getInstance().execute(new Runnable() {
 
 			@Override
 			public void run() {
-				TreeMap<String, String> header = new TreeMap<String, String>();
-				header.put("Username", "hxy@163.com");
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", pid);
-				HttpResponse checkDevResp = HttpMethods.httpGet(HOST + devCheckUrl, dict, header);
+				DelegateHttpRequest request = new DelegateHttpRequest(HttpMethodType.Get, HOST + devCheckUrl);
+				request.setBody(dict);
+				HttpResponse checkDevResp = TokenDispatcher.delegateHttpWithToken(request);
 				if(checkDevResp.isSuccess()){
 					try {
 						cb.onSuccess(checkDevResp.getContent());

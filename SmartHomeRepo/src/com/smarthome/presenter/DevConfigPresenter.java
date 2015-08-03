@@ -2,8 +2,8 @@ package com.smarthome.presenter;
 
 import org.json.JSONException;
 
-import com.smarthome.api.GetConfigFileApi;
 import com.smarthome.api.common.RequestCallback;
+import com.smarthome.api.css.GetConfigFileApi;
 import com.smarthome.api.model.DevCtrlAction;
 import com.smarthome.api.model.DeviceStatus;
 import com.smarthome.presenter.view.CustomView;
@@ -13,9 +13,11 @@ public class DevConfigPresenter {
 
 	private DevManageView view;
 	private String pid;
+	private GetConfigFileApi getConfigFileApi;
 	
 	public DevConfigPresenter(CustomView view){
 		this.view = (DevManageView)view;
+		getConfigFileApi = new GetConfigFileApi();
 	}
 	
 	public void setPid(String pid){
@@ -23,7 +25,7 @@ public class DevConfigPresenter {
 	}
 	
 	public void devControl(DevCtrlAction controlAction){
-		GetConfigFileApi.devCtrl(pid, controlAction, new RequestCallback<String>() {
+		getConfigFileApi.devCtrl(pid, controlAction, new RequestCallback<String>() {
 
 			@Override
 			public void onSuccess(String result) throws JSONException {
@@ -38,7 +40,7 @@ public class DevConfigPresenter {
 	}
 	
 	public void dispatchConfig(String savedTime){
-		GetConfigFileApi.dispatchConf(pid, savedTime, new RequestCallback<String>() {
+		getConfigFileApi.dispatchConf(pid, savedTime, new RequestCallback<String>() {
 			
 			@Override
 			public void onSuccess(String result) throws JSONException {
@@ -53,7 +55,7 @@ public class DevConfigPresenter {
 	}
 	
 	public void checkDevArgs(){
-		GetConfigFileApi.checkDevArgs(pid, new RequestCallback<String>() {
+		getConfigFileApi.checkDevArgs(pid, new RequestCallback<String>() {
 			
 			@Override
 			public void onSuccess(String result) throws JSONException {
@@ -68,7 +70,7 @@ public class DevConfigPresenter {
 	}
 	
 	public void changeDevArgs(DeviceStatus devStatus){
-		GetConfigFileApi.changeDevArgs(devStatus, new RequestCallback<String>() {
+		getConfigFileApi.changeDevArgs(devStatus, new RequestCallback<String>() {
 			
 			@Override
 			public void onSuccess(String result) throws JSONException {

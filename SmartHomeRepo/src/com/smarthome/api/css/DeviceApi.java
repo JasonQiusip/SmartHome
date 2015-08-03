@@ -1,4 +1,4 @@
-package com.smarthome.api;
+package com.smarthome.api.css;
 
 public class DeviceApi {
 

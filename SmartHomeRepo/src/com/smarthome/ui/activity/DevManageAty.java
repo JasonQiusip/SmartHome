@@ -13,7 +13,6 @@ import com.smarthome.ui.view.RevealBackgroundView.OnStateChangeListener;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -38,8 +37,7 @@ public class DevManageAty extends BaseAty implements OnClickListener, OnStateCha
 	private TextView volumeTv;
 	private TextView brightTv;
 	private RelativeLayout devProfileLayout;
-	private LinearLayout onoffLayout;
-	private LinearLayout otherSettingLayout;
+	private RelativeLayout onoffLayout;
 	private Button checkDevBtn;
 	private DevConfigPresenter devConfigPresenter;
 	private Button devControlBtn;
@@ -67,9 +65,7 @@ public class DevManageAty extends BaseAty implements OnClickListener, OnStateCha
 		
 		rootView = (RelativeLayout)findViewById(R.id.devManageRootView);
 		devProfileLayout = (RelativeLayout)findViewById(R.id.devManageProfileLayout);
-		
-		onoffLayout = (LinearLayout)findViewById(R.id.devManageOnoffSettingLayout);
-		otherSettingLayout = (LinearLayout)findViewById(R.id.devManageOtherSettingLayout);
+		onoffLayout = (RelativeLayout)findViewById(R.id.devManageOnoffSettingLayout);
 		
 		bluetoothTv = (TextView)findViewById(R.id.devManageBluetoothTv);
 		wifiTv = (TextView)findViewById(R.id.devManageWifiTv);
@@ -103,18 +99,14 @@ public class DevManageAty extends BaseAty implements OnClickListener, OnStateCha
 				realView.getViewTreeObserver().removeOnPreDrawListener(this);
 				realView.setFillPaintColor(Color.parseColor("#009688"));
 				realView.startFromLocation(revealStratPosition);
-				ViewHelper.setTranslationY(onoffLayout, -onoffLayout.getHeight()-40);
-				ViewHelper.setTranslationY(otherSettingLayout, -otherSettingLayout.getHeight() - onoffLayout.getHeight()-120);
-				animateDevProfile();
 				return true;
 			}
 		});
 	}
 	
 	private void animateDevProfile() {
-		
+		ViewHelper.setTranslationY(onoffLayout, -onoffLayout.getHeight()-40);
 		animate(onoffLayout).translationY(0).setDuration(500).setStartDelay(USER_OPTIONS_ANIMATION_DELAY).setInterpolator(INTERPOLATOR);
-		animate(otherSettingLayout).translationY(0).setDuration(400).setStartDelay(USER_OPTIONS_ANIMATION_DELAY).setInterpolator(INTERPOLATOR);
 	}
 	
 	protected void startIntroAnimation() {
@@ -221,8 +213,11 @@ public class DevManageAty extends BaseAty implements OnClickListener, OnStateCha
 
 	@Override
 	public void onStateChange(int state) {
-
-		animateDevProfile();
+		if(state == RevealBackgroundView.STATE_FINISHED){
+			animateDevProfile();
+			onoffLayout.setVisibility(View.VISIBLE);
+			
+		}
 	}
 
 }

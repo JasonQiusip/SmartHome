@@ -1,102 +1,102 @@
 package com.smarthome.api;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.json.JSONException;
 
-import retrofit.Callback;
-import retrofit.ErrorHandler;
-import retrofit.RestAdapter;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
-import retrofit.http.GET;
-import retrofit.http.Query;
-
 import android.util.Log;
 
-import com.linktop.API.CSSHttpUtil;
-import com.linktop.oauth.RsyncUtils;
+import com.jakewharton.disklrucache.DiskLruCache;
+import com.jakewharton.disklrucache.DiskLruCache.Editor;
 import com.smarthome.api.common.ApiCommonParams;
 import com.smarthome.api.common.ApiPoolExecutor;
+import com.smarthome.api.common.CacheUtil;
+import com.smarthome.api.common.ApiConstants;
 import com.smarthome.api.common.ConvertTool;
 import com.smarthome.api.common.HttpMethods;
 import com.smarthome.api.common.RC4;
 import com.smarthome.api.common.RequestCallback;
+import com.smarthome.api.common.TokenDispatcher;
 import com.smarthome.api.model.HttpResponse;
 import com.smarthome.api.model.LoginResult;
-import com.smarthome.tools.LogUtil;
 
 public class LoginApi {
 
+	public static final String ACCOUNT_INFO = "acc_related";
+	public static final String MISC = "misc";
 	private static final String GEN_TK = "/gen_tk";
-	private static final Pattern tokenPattern = Pattern.compile("([^|]+:[^|]+)");
-	public void login(final String username, final String pwd, final RequestCallback<LoginResult> cb){
-		ApiPoolExecutor.getInstance().execute(new Runnable(){
+
+	public synchronized static void login(final String username, final String pwd,
+			final RequestCallback<LoginResult> cb) {
+		ApiPoolExecutor.getInstance().execute(new Runnable() {
 
 			@Override
 			public void run() {
-				HashMap<String, String> dict = new HashMap<String, String>();
-				dict.put("api_key", ApiCommonParams.api_key);
-				dict.put("username", username);
-				dict.put("pwd", pwd);
-				HttpResponse login = HttpMethods.httpGet(ApiCommonParams.AUTHORIZE_URL + GEN_TK, dict, null);
-				if(login.isSuccess()){
-					
+				HttpResponse login = LoginAsync(username, pwd);
+				if (login.isSuccess()) {
+					storeAccToDisk(login.getContent(), pwd);
 					onLoginSuceess(cb, login);
-				}else{
+				} else {
 					cb.onError(null);
 				}
 			}
 
+
 		});
 	}
+
+	public static HttpResponse LoginAsync(final String username,
+			final String pwd) {
+		HashMap<String, String> dict = new HashMap<String, String>();
+		dict.put("api_key", ApiCommonParams.api_key);
+		dict.put("username", username);
+		dict.put("pwd", pwd);
+		HttpResponse login = HttpMethods.httpGet(
+				ApiCommonParams.AUTHORIZE_URL + GEN_TK, dict, null);
+		return login;
+	}
 	
-	void onLoginSuceess(final RequestCallback<LoginResult> cb, HttpResponse loginResult) {
+	public static void storeAccToDisk(String content, String pwd) {
 		try {
-			cb.onSuccess(decryptToken(loginResult.getContent()));
+			DiskLruCache diskLruCache = CacheUtil.openDiskLruCache(MISC);
+			Editor editor = diskLruCache.edit(ACCOUNT_INFO);
+			editor.set(ApiConstants.TOKEN_DISK_LRU_INDEX, content);
+			editor.set(ApiConstants.PWD_DISK_LRU_INDEX, pwd);
+			editor.commit();
+			// OutputStream newOutputStream = editor.newOutputStream(0);
+			// newOutputStream.write(ConvertTool.charToByteArray(content.toCharArray()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	static void onLoginSuceess(final RequestCallback<LoginResult> cb,
+			HttpResponse loginResult) {
+		try {
+			byte[] decryptedToken = TokenDispatcher.decryptToken(loginResult.getContent());
+			if(decryptedToken == null){
+				cb.onError("token decrypt fail");
+				return;
+			}
+			cb.onSuccess(getLoginResult(decryptedToken));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	//exp:{expire}|sec:{secret}|acc:{username}|pkey:{apikey_head4}
-	static LoginResult decryptToken(String token) {
-		byte[] key = convertStringToBytes(ApiCommonParams.encryption_key);
-		RC4 rc4 = new RC4(key);
-		byte[] tokenBytes = convertHexToBytes(token);
-		byte[] decryptTxt = rc4.decrypt(tokenBytes);
-		return decryptToken(decryptTxt);
-		
-	}
 
-	private static byte[] convertStringToBytes(String str) {
-		return ConvertTool.charToByteArray(str.toCharArray());
-	}
-	
-	static byte[] convertHexToBytes(String token){
-		return ConvertTool.hexStringToByteArray(token);
-	}
-
-	private static LoginResult decryptToken(byte[] decryptTxt) {
-		Log.e("decryptToken  ", ConvertTool.byteArrayToStr(decryptTxt).toString());
-		
-		Matcher matcher = tokenPattern.matcher(ConvertTool.byteArrayToStr(decryptTxt).toString());
+	private static LoginResult getLoginResult(byte[] decryptTxt) {
+		HashMap<String, String> dicedToken = TokenDispatcher.diceToken(decryptTxt);
+		if(dicedToken == null)
+			return null;
 		LoginResult loginResult = new LoginResult();
-		while(matcher.find()){
-			String matchedGroup = matcher.group();
-			String value = matchedGroup.split(":")[1];
-			if(matchedGroup.contains("exp")){
-				loginResult.setExpireTimestamp(value);
-			}else if(matchedGroup.contains("sec")){
-				loginResult.setSecret(value);
-			}else if(matchedGroup.contains("acc")){
-				loginResult.setAccount(value);
-			}
-		}
+		loginResult.setExpireTimestamp(dicedToken.get(TokenDispatcher.EXP));
+		loginResult.setSecret(dicedToken.get(TokenDispatcher.SEC));
+		loginResult.setAccount(dicedToken.get(TokenDispatcher.ACC));
 		return loginResult;
 	}
 
-	
 }
