@@ -11,13 +11,19 @@
          android:id="@+id/mainContentToolbar"
          layout="@layout/view_toolbar"/>
 
+    	<RelativeLayout 
+    	    android:id="@+id/devManageOnoffSettingLayout"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:visibility="gone"
+    	     android:layout_below="@+id/devManageProfileLayout">
 		<LinearLayout 
-		    android:id="@+id/devManageOnoffSettingLayout"
+		    android:id="@+id/devManageSetting1"
 		    android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:layout_marginTop="8dp"
 		    android:orientation="horizontal"
-		    android:layout_below="@+id/devManageProfileLayout"
+		   
 		    >
          <TextView
              android:id="@+id/devManageBluetoothTv"
@@ -65,7 +71,7 @@
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
              android:layout_marginTop="32dp"
-             android:layout_below="@id/devManageOnoffSettingLayout"
+             android:layout_below="@id/devManageSetting1"
              >
            <TextView
              android:id="@+id/devManagePowerOnTv"
@@ -89,6 +95,7 @@
              android:drawablePadding="2dp"
              android:drawableLeft="@drawable/poweroff" />
          </LinearLayout>
+         </RelativeLayout>
      <RelativeLayout 
         android:id="@+id/devManageProfileLayout"
         android:layout_below="@id/mainContentToolbar"

@@ -11,22 +11,34 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/mainContentViewPager"
         android:layout_below="@id/mainContentToolbar"
+        android:layout_above="@+id/bottomTabbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
     <LinearLayout 
+        android:id="@+id/bottomTabbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-         <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="59dp"
-        android:text="Button" />
+        android:orientation="horizontal">
+        	<com.rey.material.widget.Button
+		        android:id="@+id/mainHomeTabBtn"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:text="Home" />
+            <com.rey.material.widget.Button
+		        android:id="@+id/mainAlbumTabBtn"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:text="Album" />
+               <com.rey.material.widget.Button
+		        android:id="@+id/mainMyProfileTabBtn"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_weight="1"
+		        android:text="Profile" />
     </LinearLayout>
 
-   
 
 </RelativeLayout>
