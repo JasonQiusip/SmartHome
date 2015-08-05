@@ -18,7 +18,7 @@ public class CacheUtil {
 		if(!fileToStore.exists())
 			fileToStore.mkdirs();
 		int appVer = getAppVersion(SmartHomeApplication.getApplication());
-		DiskLruCache diskLruCache = DiskLruCache.open(fileToStore, appVer, 1, 1024*1024*10);
+		DiskLruCache diskLruCache = DiskLruCache.open(fileToStore, appVer, 2, 1024*1024*10);
 		return diskLruCache;
 	}
 	

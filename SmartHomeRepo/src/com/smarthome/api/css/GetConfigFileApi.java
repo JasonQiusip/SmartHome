@@ -12,7 +12,7 @@ import com.smarthome.api.common.ApiPoolExecutor;
 import com.smarthome.api.common.HttpMethods;
 import com.smarthome.api.common.RequestCallback;
 import com.smarthome.api.common.TokenDispatcher;
-import com.smarthome.api.model.DelegateHttpRequest;
+import com.smarthome.api.model.HttpReqParam;
 import com.smarthome.api.model.DevCtrlAction;
 import com.smarthome.api.model.DeviceStatus;
 import com.smarthome.api.model.HttpMethodType;
@@ -20,7 +20,7 @@ import com.smarthome.api.model.HttpResponse;
 
 public class GetConfigFileApi extends CSSBaseApi{
 
-	private static final String HOST = ApiCommonParams.PUSH_URL;
+	private static final String HOST = ApiCommonParams.API_URL;
 	private static final String devCheckUrl = "/dev/check_dev_args";
 	private static final String devChangeUrl = "/dev/change_dev_args";
 	private static final String dispatchConf = "/dev/dispatch_conf";
@@ -38,9 +38,9 @@ public class GetConfigFileApi extends CSSBaseApi{
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", pid);
 				dict.put("savedTime", savedTime);
-				DelegateHttpRequest request = new DelegateHttpRequest(HttpMethodType.Get, HOST + dispatchConf);
+				HttpReqParam request = new HttpReqParam(HttpMethodType.Get, HOST + dispatchConf);
 				request.setBody(dict);
-				HttpResponse dispatchConfReq = TokenDispatcher.delegateHttpWithToken(request);
+				HttpResponse dispatchConfReq = TokenDispatcher.delegateHttpReqWithToken(request);
 				if(dispatchConfReq.isSuccess()){
 					try {
 						cb.onSuccess(dispatchConfReq.getContent());
@@ -65,9 +65,9 @@ public class GetConfigFileApi extends CSSBaseApi{
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", pid);
 				dict.put("action", action.name());
-				DelegateHttpRequest request = new DelegateHttpRequest(HttpMethodType.Get, HOST + devCtrl);
+				HttpReqParam request = new HttpReqParam(HttpMethodType.Get, HOST + devCtrl);
 				request.setBody(dict);
-				HttpResponse devCtrlResp = TokenDispatcher.delegateHttpWithToken(request);
+				HttpResponse devCtrlResp = TokenDispatcher.delegateHttpReqWithToken(request);
 				if(devCtrlResp.isSuccess()){
 					try {
 						cb.onSuccess(devCtrlResp.getContent());
@@ -99,9 +99,9 @@ public class GetConfigFileApi extends CSSBaseApi{
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", devStatus.getPid());
 				dict.put("payload", payloadObj.toString());
-				DelegateHttpRequest request = new DelegateHttpRequest(HttpMethodType.Post, HOST + devChangeUrl);
+				HttpReqParam request = new HttpReqParam(HttpMethodType.Post, HOST + devChangeUrl);
 				request.setBody(dict);
-				HttpResponse checkDevResp = TokenDispatcher.delegateHttpWithToken(request);
+				HttpResponse checkDevResp = TokenDispatcher.delegateHttpReqWithToken(request);
 				if(checkDevResp.isSuccess()){
 					try {
 						cb.onSuccess(checkDevResp.getContent());
@@ -143,9 +143,9 @@ public class GetConfigFileApi extends CSSBaseApi{
 			public void run() {
 				HashMap<String, String> dict = new HashMap<String, String>();
 				dict.put("pid", pid);
-				DelegateHttpRequest request = new DelegateHttpRequest(HttpMethodType.Get, HOST + devCheckUrl);
+				HttpReqParam request = new HttpReqParam(HttpMethodType.Get, HOST + devCheckUrl);
 				request.setBody(dict);
-				HttpResponse checkDevResp = TokenDispatcher.delegateHttpWithToken(request);
+				HttpResponse checkDevResp = TokenDispatcher.delegateHttpReqWithToken(request);
 				if(checkDevResp.isSuccess()){
 					try {
 						cb.onSuccess(checkDevResp.getContent());

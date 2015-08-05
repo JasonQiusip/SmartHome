@@ -6,59 +6,63 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.json.JSONException;
+import android.util.Log;
 
 import com.jakewharton.disklrucache.DiskLruCache.Snapshot;
 import com.linktop.oauth.OAuthUtil;
 import com.smarthome.api.LoginApi;
-import com.smarthome.api.model.DelegateHttpRequest;
+import com.smarthome.api.model.HttpReqParam;
 import com.smarthome.api.model.HttpMethodType;
 import com.smarthome.api.model.HttpResponse;
-import com.smarthome.api.model.LoginResult;
 
 public class TokenDispatcher {
 
+	private static final boolean STOP_TRYING = false;
 	private static final String TOKEN2 = "token";
 	private static final String PWD = "pwd";
 	public static final String ACC = "acc";
 	public static final String SEC = "sec";
 	public static final String EXP = "exp";
-	private static final Pattern tokenPattern = Pattern
-			.compile("([^|]+:[^|]+)");
+	private static final Pattern tokenPattern = Pattern.compile("([^|]+:[^|]+){1,3}");
 
-	public synchronized static HttpResponse delegateHttpWithToken(DelegateHttpRequest request) {
+	public synchronized static HttpResponse delegateHttpReqWithToken(HttpReqParam request){
+		return delegateHttpWithToken(request, true);
+	}
+	
+	private synchronized static HttpResponse delegateHttpWithToken(HttpReqParam request, boolean tryAgain) {
 		HashMap<String, String> localTk = getAccInfoFromDisk();
+		HttpResponse httpResponse = new HttpResponse();
 		if (null == localTk) {
-			return null;
+			return httpResponse;
 		}
 		String token = localTk.get(TOKEN2);
 		String url = request.getUrlPath();
-		HashMap<String, String> body = request.getBody();
 		TreeMap<String, String> header = request.getHeader();
+		HashMap<String, String> body = request.getBody();
+
 		String sign = OAuthUtil.getSignature(url, body, "GET", ApiCommonParams.api_key, ApiCommonParams.api_secret);
+		
 		body.put("_tk", token);
 		body.put("_sign", sign);
-		HttpResponse httpResponse;
+		
 		if (request.getType() == HttpMethodType.Get) {
 			httpResponse = HttpMethods.httpGet(url, body, header);
 		} else {
 			httpResponse = HttpMethods.httpPost(url, body, header);
 		}
 
-		HashMap<String, String> decryptedResult = getDecryptedResult(token);
-		String username = decryptedResult.get(ACC);
-		String pwd = localTk.get(PWD);
-
 		if (httpResponse.isAuthorizeFailed()) {
+			HashMap<String, String> decryptedResult = getDecryptedResult(token);
+			String username = decryptedResult.get(ACC);
+			String pwd = localTk.get(PWD);
 			HttpResponse loginResp = LoginAgain(pwd, username);
-			if(loginResp.isSuccess()){
+			
+			if(loginResp.isSuccess() && tryAgain){
 				LoginApi.storeAccToDisk(loginResp.getContent(), pwd);
-				return delegateHttpWithToken(request);
+				return delegateHttpWithToken(request, STOP_TRYING);
 			}else {
 				return loginResp;
 			} 
-		}else if(httpResponse.isSuccess()){
-			return httpResponse;
 		}else{
 			return httpResponse;
 		}
@@ -70,15 +74,14 @@ public class TokenDispatcher {
 		try {
 			Snapshot snapshot = CacheUtil.openDiskLruCache(LoginApi.MISC).get(
 					LoginApi.ACCOUNT_INFO);
-			String token = snapshot
-					.getString(ApiConstants.TOKEN_DISK_LRU_INDEX);
+			String token = snapshot.getString(ApiConstants.TOKEN_DISK_LRU_INDEX);
 			String pwd = snapshot.getString(ApiConstants.PWD_DISK_LRU_INDEX);
 			if (token == null)
-				return null;
+				return accInfoMap;
 			if (pwd == null)
-				return null;
+				return accInfoMap;
 			accInfoMap.put(TOKEN2, token);
-			accInfoMap.put(PWD, token);
+			accInfoMap.put(PWD, pwd);
 			return accInfoMap;
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -86,10 +89,7 @@ public class TokenDispatcher {
 		return null;
 	}
 	
-	private static HttpResponse LoginAgain(String pwd, String username) {
-		return LoginApi.LoginAsync(username, pwd);
-	}
-
+	
 	private static HashMap<String, String> getDecryptedResult(String token) {
 		byte[] decryptToken = decryptToken(token);
 		return diceToken(decryptToken);
@@ -97,30 +97,22 @@ public class TokenDispatcher {
 
 	// exp:{expire}|sec:{secret}|acc:{username}|pkey:{apikey_head4}
 	public static byte[] decryptToken(String token) {
-		byte[] key = convertStringToBytes(ApiCommonParams.encryption_key);
+		byte[] key = ConvertTool.charToByteArray(ApiCommonParams.encryption_key.toCharArray());
 		RC4 rc4 = new RC4(key);
-		byte[] tokenBytes = convertHexToBytes(token);
+		byte[] tokenBytes = ConvertTool.hexStringToByteArray(token);
 		byte[] decryptTxt = rc4.decrypt(tokenBytes);
 		return decryptTxt;
 
 	}
 
-	private static byte[] convertStringToBytes(String str) {
-		return ConvertTool.charToByteArray(str.toCharArray());
-	}
-
-	static byte[] convertHexToBytes(String token) {
-		return ConvertTool.hexStringToByteArray(token);
-	}
-
 	public static HashMap<String, String> diceToken(byte[] decryptTxt) {
-		Matcher matcher = tokenPattern.matcher(ConvertTool.byteArrayToStr(
-				decryptTxt).toString());
+		
+		Matcher matcher = tokenPattern.matcher(ConvertTool.byteArrayToStr(decryptTxt).toString());
 		HashMap<String, String> regexResult = new HashMap<String, String>();
-		if (!matcher.find())
+		if(!matcher.find())
 			return null;
-		String matchedGroup = matcher.group();
-		do {
+		do{
+			String matchedGroup = matcher.group();
 			String value = matchedGroup.split(":")[1];
 			if (matchedGroup.contains(EXP)) {
 				regexResult.put(EXP, value);
@@ -129,7 +121,14 @@ public class TokenDispatcher {
 			} else if (matchedGroup.contains(ACC)) {
 				regexResult.put(ACC, value);
 			}
-		} while (matcher.find());
+		}while(matcher.find());
 		return regexResult;
 	}
+	
+	private static HttpResponse LoginAgain(String pwd, String username) {
+		return LoginApi.LoginAsync(username, pwd);
+	}
+
+	
+	
 }

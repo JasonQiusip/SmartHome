@@ -10,7 +10,7 @@ import com.smarthome.api.common.ApiPoolExecutor;
 import com.smarthome.api.common.HttpMethods;
 import com.smarthome.api.common.RequestCallback;
 import com.smarthome.api.common.TokenDispatcher;
-import com.smarthome.api.model.DelegateHttpRequest;
+import com.smarthome.api.model.HttpReqParam;
 import com.smarthome.api.model.HttpMethodType;
 import com.smarthome.api.model.HttpResponse;
 import com.smarthome.push.BaiduPushModel;
@@ -37,9 +37,9 @@ public class PushApi extends CSSBaseApi {
 				dict.put("os", "and");
 				dict.put("ver", "0.1");
 				dict.put("args", pushArgs);
-				DelegateHttpRequest request = new DelegateHttpRequest(HttpMethodType.Get, HOST + BIND_BAIDU_PUSH);
+				HttpReqParam request = new HttpReqParam(HttpMethodType.Get, HOST + BIND_BAIDU_PUSH);
 				request.setBody(dict);
-				HttpResponse pushReq = TokenDispatcher.delegateHttpWithToken(request);
+				HttpResponse pushReq = TokenDispatcher.delegateHttpReqWithToken(request);
 				if (pushReq.isSuccess()) {
 					try {
 						cb.onSuccess("ok");

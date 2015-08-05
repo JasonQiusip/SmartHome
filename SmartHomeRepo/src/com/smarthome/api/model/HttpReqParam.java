@@ -3,13 +3,13 @@ package com.smarthome.api.model;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-public class DelegateHttpRequest {
+public class HttpReqParam {
 	private HttpMethodType type; 
 	private String urlPath;
 	private HashMap<String, String> body;
 	private TreeMap<String, String> header;
 	
-	public DelegateHttpRequest(HttpMethodType type, String urlPath){
+	public HttpReqParam(HttpMethodType type, String urlPath){
 		this.type = type;
 		this.urlPath = urlPath;
 	}
