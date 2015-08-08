@@ -31,15 +31,15 @@ public class RegisterApi {
 		regService = restAdapter.create(RegService.class);
 	}
 	
-	public void reqValCode(String account, final RequestCallback cb){
+	public void reqValCode(String account, final RequestCallback<String> cb){
 		 regService.reqValCode(account, genRegResultCallback(cb));
 	}
 	
-	public void register(String account, String pwd, String val, final RequestCallback cb){
+	public void register(String account, String pwd, String val, final RequestCallback<String> cb){
 		regService.register(account, pwd, val, genRegResultCallback(cb));
 	}
 	
-	private Callback<RegResult> genRegResultCallback(final RequestCallback cb) {
+	private Callback<RegResult> genRegResultCallback(final RequestCallback<String> cb) {
 		return new Callback<RegResult>(){
 
 			@Override
@@ -60,11 +60,11 @@ public class RegisterApi {
 	}
 	
 	//for Test only
-	public void getValcode(String mobile, final RequestCallback cb){
+	public void getValcode(String mobile, final RequestCallback<String> cb){
 		regService.getValCode(mobile, getValCodeCallback(cb));
 	}
 
-	private Callback<RegValCode> getValCodeCallback(final RequestCallback cb) {
+	private Callback<RegValCode> getValCodeCallback(final RequestCallback<String> cb) {
 		return new Callback<RegValCode>(){
 			
 			@Override

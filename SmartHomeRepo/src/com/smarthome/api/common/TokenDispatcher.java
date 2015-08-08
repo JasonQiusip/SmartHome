@@ -58,7 +58,7 @@ public class TokenDispatcher {
 			HttpResponse loginResp = LoginAgain(pwd, username);
 			
 			if(loginResp.isSuccess() && tryAgain){
-				LoginApi.storeAccToDisk(loginResp.getContent(), pwd);
+				CacheUtil.storeAccToDisk(loginResp.getContent(), pwd);
 				return delegateHttpWithToken(request, STOP_TRYING);
 			}else {
 				return loginResp;
@@ -72,8 +72,8 @@ public class TokenDispatcher {
 	public static HashMap<String, String> getAccInfoFromDisk() {
 		HashMap<String, String> accInfoMap = new HashMap<String, String>();
 		try {
-			Snapshot snapshot = CacheUtil.openDiskLruCache(LoginApi.MISC).get(
-					LoginApi.ACCOUNT_INFO);
+			Snapshot snapshot = CacheUtil.openDiskLruCache(CacheUtil.MISC).get(
+					CacheUtil.ACCOUNT_INFO);
 			String token = snapshot.getString(ApiConstants.TOKEN_DISK_LRU_INDEX);
 			String pwd = snapshot.getString(ApiConstants.PWD_DISK_LRU_INDEX);
 			if (token == null)

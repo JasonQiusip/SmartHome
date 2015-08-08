@@ -26,8 +26,7 @@ import com.smarthome.api.model.LoginResult;
 
 public class LoginApi {
 
-	public static final String ACCOUNT_INFO = "acc_related";
-	public static final String MISC = "misc";
+
 	private static final String GEN_TK = "/gen_tk";
 
 	public synchronized static void login(final String username, final String pwd,
@@ -38,7 +37,7 @@ public class LoginApi {
 			public void run() {
 				HttpResponse login = LoginAsync(username, pwd);
 				if (login.isSuccess()) {
-					storeAccToDisk(login.getContent(), pwd);
+					CacheUtil.storeAccToDisk(login.getContent(), pwd);
 					onLoginSuceess(cb, login);
 				} else {
 					cb.onError(null);
@@ -60,20 +59,6 @@ public class LoginApi {
 		return login;
 	}
 	
-	public static void storeAccToDisk(String content, String pwd) {
-		try {
-			DiskLruCache diskLruCache = CacheUtil.openDiskLruCache(MISC);
-			Editor editor = diskLruCache.edit(ACCOUNT_INFO);
-			editor.set(ApiConstants.TOKEN_DISK_LRU_INDEX, content);
-			editor.set(ApiConstants.PWD_DISK_LRU_INDEX, pwd);
-			editor.commit();
-			// OutputStream newOutputStream = editor.newOutputStream(0);
-			// newOutputStream.write(ConvertTool.charToByteArray(content.toCharArray()));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
 	static void onLoginSuceess(final RequestCallback<LoginResult> cb,
 			HttpResponse loginResult) {
 		try {

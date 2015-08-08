@@ -32,7 +32,7 @@ public class AccountCheckApi {
 		mobileCheckService = restAdapter.create(MobileCheckService.class);
 	}
 	
-	public void checkAccount(String account, final RequestCallback cb){
+	public void checkAccount(String account, final RequestCallback<String> cb){
 		mobileCheckService.checkAccount(account, new Callback<RegResult>(){
 
 				@Override
